@@ -348,10 +348,16 @@ export class AppComponent {
     //event.stopPropagation();
     let terefere = {target:{files: event.dataTransfer.files}};//nieelegancki myk,zeby pasowalo do onFileSelected(). no moznaby to ladnie dyrektywa ogarnac
     this.onFileSelected(terefere,el);
+    event.target.style.setProperty('opacity','1');//classList.remove('przezroczystosc');
   }
   stopujZapobiegaj(ev:any) {
     ev.stopPropagation();
     ev.preventDefault();
+    ev.target.style.setProperty('opacity','.2');
+  }
+
+  usunPrzezroczystosc(ev:any){
+    ev.target.style.setProperty('opacity','1');
   }
 
   onFileSelected(event:any,el:HTMLImageElement) {

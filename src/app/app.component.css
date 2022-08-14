@@ -172,6 +172,8 @@
     background: linear-gradient(45deg, #ddd, #eee);
     cursor: pointer;
     /*aspect-ratio: 1;*/
+    transition: opacity .1s linear;
+    opacity: 1;
 }
 #kolaz > div > button{
     display: none;
@@ -314,6 +316,9 @@ h1{
     z-index:1010;
 }
 mat-toolbar{
-    background: linear-gradient(225deg,#3F51B5,#880E4F);
+    background: linear-gradient(225deg,#3F51B5,#283593);
     color:white;
+}
+.przezroczystosc{
+    opacity: .2;
 }
