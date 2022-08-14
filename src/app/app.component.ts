@@ -144,7 +144,7 @@ export class AppComponent {
     if(this.img1_1ZastosowaneFiltry.length>0 || this.img1_2ZastosowaneFiltry.length>0 || this.img1_3ZastosowaneFiltry.length>0 ||
         this.img1_4ZastosowaneFiltry.length>0 || this.img1_5ZastosowaneFiltry.length>0 || this.img1_6ZastosowaneFiltry.length>0){
           
-      console.log('Pogorszenie jakości cyklisty z racji filtrów i konieczności zastosowania innej metody renderingu zrzutu. Zastosowanie filtra w jakimkolwiek zdjęciu wpływa na jakość całego kolarza.. kolażu');
+      alert('Pogorszenie jakości cyklisty z racji filtrów i konieczności zastosowania innej metody renderingu zrzutu. Zastosowanie filtra w jakimkolwiek zdjęciu wpływa na jakość całego kolarza.. kolażu');
       
       const tablicaKanwasuf = [
         {'kanw':this.canvas_1,'img':this.img1_1},
