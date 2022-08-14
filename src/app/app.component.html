@@ -1,0 +1,298 @@
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_1)" #fileUpload1_1>
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_2)" #fileUpload1_2>
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_3)" #fileUpload1_3>
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_4)" #fileUpload1_4>
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_5)" #fileUpload1_5>
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_6)" #fileUpload1_6>
+
+<mat-progress-bar mode="indeterminate" *ngIf="loaderZrzut" color="accent" class="loaderZrzut"></mat-progress-bar>
+
+<div id="zrzutKolazu" #zrzutKolazu>
+
+</div>
+<button *ngIf="zrzutKolazuZrobiony" mat-icon-button (click)="zamknijZrzut()" id="zamknijZrzut" matTooltip="zamknij">
+       <mat-icon style="color:white">close</mat-icon>
+</button>
+<button *ngIf="zrzutKolazuZrobiony && !loaderDownloader" mat-icon-button (click)="pobierzZrzut()" id="pobierzZrzut" matTooltip="pobierz ({{rozmiarKolazu}}x{{rozmiarKolazu}}px)">
+       <mat-icon style="color:white">file_download</mat-icon>
+</button>
+<mat-spinner *ngIf="zrzutKolazuZrobiony && loaderDownloader" id="loaderDownloader" diameter="24" color="accent"></mat-spinner>
+
+<div id="glownyWrapper" (mouseup)="imgSrcDoPrzesuniecia = undefined">
+<mat-toolbar id="toolsy" class="mat-elevation-z10">
+       <h1>Super<br/>Zaawansowany<br/>Generator Kolaży<br/>"Cyklistator"</h1>
+       
+       <mat-divider></mat-divider>
+
+       <div class="malyToolbar" style="margin-bottom:16px;">
+              <span>kolor paszportu:</span>
+              <ngx-colors ngx-colors-trigger [(ngModel)]="color" acceptLabel="OK" cancelLabel="Anuluj"></ngx-colors>
+       </div>
+
+       <div class="malyToolbar">
+              <mat-form-field class="example-form-field">
+                     <mat-label>Grub.(px)</mat-label>
+                     <input matInput type="number" step="1" min="0" max="50" [(ngModel)]="gruboscPaspartu">
+              </mat-form-field>
+
+              <mat-form-field class="example-form-field">
+                     <mat-label>Rozm.(px)</mat-label>
+                     <input matInput type="number" step="1" min="500" max="2000" [(ngModel)]="rozmiarKolazu" (change)="zmianaGornegoMarginesuKolazu()">
+              </mat-form-field>
+       </div>       
+
+       <h3 style="margin-top:-16px;">przesuwanie</h3>
+       <div class="malyToolbar">
+              <button mat-icon-button (click)="ustawPrzesuwanie(true,true)" matTooltip="we wszystkich kierunkach">
+                     <mat-icon [color]="przesuwaniePion && przesuwaniePoziom ? 'accent':''">open_with</mat-icon>
+              </button>
+              <button mat-icon-button (click)="ustawPrzesuwanie(true,false)" matTooltip="tylko w pionie">
+                     <mat-icon [color]="przesuwaniePion && !przesuwaniePoziom ? 'accent':''">swap_vert</mat-icon>
+              </button>
+              <button mat-icon-button (click)="ustawPrzesuwanie(false,true)" matTooltip="tylko w poziomie">
+                     <mat-icon [color]="!przesuwaniePion && przesuwaniePoziom ? 'accent':''">swap_horiz</mat-icon>
+              </button>
+       </div>
+       <mat-divider></mat-divider>
+       <h3 style="margin-bottom: 10px;">szablony</h3>
+       <div class="wyborKolazy">
+              <div *ngFor="let sz of szablony" (click)="wybierzKolaz(sz)">
+                     <div [ngClass]="sz">
+                            <div></div>
+                            <div [ngStyle]="{'border':(sz === 'maleNaDuzym') ? '2px solid #9FA8DA' : 'none' }"></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                     </div>
+              </div>
+       </div>
+
+       <button mat-raised-button color="primary"(click)="wyczyscZdjecia()" class="szerokiBtn mat-elevation-z0" >wyczyść zdjęcia</button>
+       <button mat-raised-button color="accent" (click)="zrobZrzut()" class="szerokiBtn mat-elevation-z0">zrup żut</button>
+
+       <!--<mat-form-field>
+              <input matInput [ngxMatColorPicker]="picker" [formControl]="colorCtr" [disabled]="disabled">
+              <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+              <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+       </mat-form-field>-->
+
+</mat-toolbar>
+<div id="paspartuWrapper">
+
+       <div id="paspartu" #paspartu [ngStyle]="{'padding': gruboscPaspartu+ 'px','width':rozmiarKolazu+'px','height':rozmiarKolazu+'px','background-color':color}" [ngClass]="{'mat-elevation-z6':!zrzutKolazuZrobiony}">
+
+              <div id="kolaz" [ngStyle]="{'gap': gruboscPaspartu+ 'px'}" [ngClass]="wybranySzablon">
+
+                     <div (drop)="onFileDroped($event,img1_1)" (dragover)="stopujZapobiegaj($event)"
+                     (mouseup)="mouseUp(img1_1)">
+                            
+                            <button *ngIf="url1_1!=''" mat-icon-button [matMenuTriggerFor]="menu1_1" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu1_1="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload1_1.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img1_1)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img1_1)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_1,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_1,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry_1">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry_1="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img1_1)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img1_1,img1_1ZastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+                            
+                            <div class="dodajObraz" *ngIf="url1_1==''" (click)="fileUpload1_1.click()" matRipple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="img1_1" #img1_1 [src]="url1_1" draggable="false"
+                            (mousedown)="img1_1MouseDown=true;kursoryPoczatkowe(img1_1.offsetTop,img1_1.offsetLeft);mouseDown(img1_1)"
+                            (mouseup)="img1_1MouseDown=false" (mouseout)="img1_1MouseDown=false"/>
+
+                            <canvas #canvas_1></canvas>
+
+                     </div>
+                     <!-- gdyby nie zmianna grubosci paspartu to zrobilbym w cssie nth-childem w danej klasie -->
+                     <div [ngStyle]="{'border':(wybranySzablon === 'maleNaDuzym') ? gruboscPaspartu+'px solid '+color : 'none' }"
+                     (drop)="onFileDroped($event,img1_2)" (dragover)="stopujZapobiegaj($event)"
+                     (mouseup)="mouseUp(img1_2)">
+                            
+                            <button *ngIf="url1_2!=''" mat-icon-button [matMenuTriggerFor]="menu1_2" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu1_2="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload1_2.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img1_2)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img1_2)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_2,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_2,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry_2">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry_2="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img1_2)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img1_2,img1_2ZastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+                            
+                            <div class="dodajObraz" *ngIf="url1_2==''" (click)="fileUpload1_2.click()" mat-ripple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="img1_2" #img1_2 [src]="url1_2" draggable="false"
+                            (mousedown)="img1_2MouseDown=true;kursoryPoczatkowe(img1_2.offsetTop,img1_2.offsetLeft);mouseDown(img1_2)"
+                            (mouseup)="img1_2MouseDown=false" (mouseout)="img1_2MouseDown=false"/>
+
+                            <canvas #canvas_2></canvas>
+                     
+                     </div>
+
+                     <div (drop)="onFileDroped($event,img1_3)" (dragover)="stopujZapobiegaj($event)"
+                     (mouseup)="mouseUp(img1_3)">
+
+                            <button *ngIf="url1_3!=''" mat-icon-button [matMenuTriggerFor]="menu1_3" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu1_3="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload1_3.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img1_3)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img1_3)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_3,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_3,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry_3">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry_3="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img1_3)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img1_3,img1_3ZastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+
+                            <div class="dodajObraz" *ngIf="url1_3==''" (click)="fileUpload1_3.click()" mat-ripple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="img1_3" #img1_3 [src]="url1_3" draggable="false"
+                            (mousedown)="img1_3MouseDown=true;kursoryPoczatkowe(img1_3.offsetTop,img1_3.offsetLeft);mouseDown(img1_3)"
+                            (mouseup)="img1_3MouseDown=false" (mouseout)="img1_3MouseDown=false"/>
+
+                            <canvas #canvas_3></canvas>
+                     
+                     </div>
+
+                     <div (drop)="onFileDroped($event,img1_4)" (dragover)="stopujZapobiegaj($event)"
+                     (mouseup)="mouseUp(img1_4)">
+
+                            <button *ngIf="url1_4!=''" mat-icon-button [matMenuTriggerFor]="menu1_4" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu1_4="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload1_4.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img1_4)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img1_4)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_4,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_4,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry_4">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry_4="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img1_4)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img1_4,img1_4ZastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+
+                            <div class="dodajObraz" *ngIf="url1_4==''" (click)="fileUpload1_4.click()" mat-ripple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="img1_4" #img1_4 [src]="url1_4" draggable="false"
+                            (mousedown)="img1_4MouseDown=true;kursoryPoczatkowe(img1_4.offsetTop,img1_4.offsetLeft);mouseDown(img1_4)"
+                            (mouseup)="img1_4MouseDown=false" (mouseout)="img1_4MouseDown=false"/>
+
+                            <canvas #canvas_4></canvas>
+                     
+                     </div>
+
+                     <div (drop)="onFileDroped($event,img1_5)" (dragover)="stopujZapobiegaj($event)"
+                     (mouseup)="mouseUp(img1_5)">
+                            
+                            <button *ngIf="url1_5!=''" mat-icon-button [matMenuTriggerFor]="menu1_5" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu1_5="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload1_5.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img1_5)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img1_5)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_5,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_5,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry_5">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry_5="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img1_5)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img1_5,img1_5ZastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+                            
+                            <div class="dodajObraz" *ngIf="url1_5==''" (click)="fileUpload1_5.click()" matRipple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="img1_5" #img1_5 [src]="url1_5" draggable="false"
+                            (mousedown)="img1_5MouseDown=true;kursoryPoczatkowe(img1_5.offsetTop,img1_5.offsetLeft);mouseDown(img1_5)"
+                            (mouseup)="img1_5MouseDown=false" (mouseout)="img1_5MouseDown=false"/>
+
+                            <canvas #canvas_5></canvas>
+
+                     </div>
+
+                     <div (drop)="onFileDroped($event,img1_6)" (dragover)="stopujZapobiegaj($event)"
+                     (mouseup)="mouseUp(img1_6)">
+                            
+                            <button *ngIf="url1_6!=''" mat-icon-button [matMenuTriggerFor]="menu1_6" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu1_6="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload1_6.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img1_6)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img1_6)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_6,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img1_6,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry_6">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry_6="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img1_6)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img1_6,img1_6ZastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+                            
+                            <div class="dodajObraz" *ngIf="url1_6==''" (click)="fileUpload1_6.click()" matRipple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="img1_6" #img1_6 [src]="url1_6" draggable="false"
+                            (mousedown)="img1_6MouseDown=true;kursoryPoczatkowe(img1_6.offsetTop,img1_6.offsetLeft);mouseDown(img1_6)"
+                            (mouseup)="img1_6MouseDown=false" (mouseout)="img1_6MouseDown=false"/>
+
+                            <canvas #canvas_6></canvas>
+
+                     </div>
+
+              </div>
+       </div>
+</div>
+</div>
+
+
+<router-outlet></router-outlet>

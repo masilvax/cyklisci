@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Filtrowanie {{nazwaWysw}}</h1>
+<div mat-dialog-content>  
+
+  <div #imidrz></div>
+
+  <mat-slider
+    [max]="max"
+    [min]="min"
+    [step]="1"
+    [thumbLabel]="true"
+    [(ngModel)]="nowaWartosc"
+    aria-labelledby="example-name-label"
+    (change)="naZmiane()"
+    style="width: 100%;">
+    </mat-slider>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Anuloza</button>
+  <button mat-button  cdkFocusInitial (click)="naOK()">Ok</button>
+</div>
