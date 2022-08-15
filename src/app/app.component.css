@@ -152,12 +152,18 @@
     margin-left: 50%;
     border: 10px solid white;
 }
+.kwadrat1{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
 
 .kwadraty3boczne1duzy > div:nth-child(n+5), .kwadraty3boczne1duzyL > div:nth-child(n+5), .kwadraty3boczne1duzyP > div:nth-child(n+5), .kwadraty3boczne1duzyPL > div:nth-child(n+5),
 .kwadraty2boczne1duzy > div:nth-child(n+4), .kwadraty2boczne1duzyL > div:nth-child(n+4), .kwadraty2boczne1duzyP > div:nth-child(n+4), .kwadraty2boczne1duzyPL > div:nth-child(n+4),
 .podloga > div:nth-child(n+5), .podlogaP > div:nth-child(n+5),
 .kwadraty4inne > div:nth-child(n+5), .kwadraty4inneL > div:nth-child(n+5), .kwadraty4inneP > div:nth-child(n+5), .kwadraty4innePL > div:nth-child(n+5),
-.kwadraty4 > div:nth-child(n+5), .maleNaDuzym > div:nth-child(n+3), .spirala > div:nth-child(n+6){
+.kwadraty4 > div:nth-child(n+5), .maleNaDuzym > div:nth-child(n+3), .spirala > div:nth-child(n+6),
+.kwadrat1 > div:nth-child(n+2){
     display: none;
 }
 /* KONIEC SZABLONY */

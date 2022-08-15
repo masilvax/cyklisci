@@ -60,7 +60,8 @@ export class AppComponent {
               'kwadraty3boczne1duzy','kwadraty3boczne1duzyL','kwadraty3boczne1duzyP','kwadraty3boczne1duzyPL',
               'kwadraty2boczne1duzy','kwadraty2boczne1duzyL','kwadraty2boczne1duzyP','kwadraty2boczne1duzyPL',
               'podloga','podlogaP','innaPodloga',
-              'maleNaDuzym','spirala'];
+              'maleNaDuzym','spirala',
+              'kwadrat1'];
 
   gruboscPaspartu:string = '10';
   rozmiarKolazu:number = 900;
