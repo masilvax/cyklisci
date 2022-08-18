@@ -15,6 +15,15 @@ export interface zastosowanyFiltr{
   wartAktualna:number
 }
 
+export interface parametryZdjecia{
+  url:string,
+  img:HTMLImageElement,
+  mouseDown:boolean,
+  kanw:HTMLCanvasElement,
+  zastosowaneFiltry:filtr[],
+  fileUpload:HTMLInputElement
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -112,6 +121,8 @@ export class AppComponent {
   img1_4ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_5ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_6ZastosowaneFiltry:zastosowanyFiltr[] = [];
+
+  maxLiczbaZdjec:number = 9;
 
   zmianaGornegoMarginesuKolazu(){//margines, wysrodkowanie kolazu na zmiane jego rozmiaru
     //trzeba policzyc, zeby przy duzych kolazach nie srodkowal, a robil margin=0 top=0 
