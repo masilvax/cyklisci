@@ -20,7 +20,7 @@ export interface parametryZdjecia{
   img:HTMLImageElement,
   mouseDown:boolean,
   kanw:HTMLCanvasElement,
-  zastosowaneFiltry:filtr[],
+  zastosowaneFiltry:zastosowanyFiltr[],
   fileUpload:HTMLInputElement
 }
 
