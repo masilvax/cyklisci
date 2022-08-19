@@ -66,9 +66,16 @@ export class AppComponent implements OnInit, AfterViewInit{
 
   parametryZdjec:parametryZdjecia[] = [];
 
+  //Ponizsze ViewChildreny z QueryListami laduje w afterViewInit do tablicy parametryZdjec:
+
   //ViewChildren z QueryList sie sotsuje, gdy mamy w ngForze np #img i on wszystkie #img w ten sposób magicznie obczai
   @ViewChildren('img') images!:QueryList<ElementRef<HTMLImageElement>>;
+   
+  //kanwasy, bo przy wykorzystaniu filtrow trzeba przerysowac rysunek z filtrami, bo html2canvas nie wszystkie cssy bierze pod uwage 
   @ViewChildren('canvas') canvases!:QueryList<ElementRef<HTMLCanvasElement>>;
+
+  // do resetowania inputfile'ow, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change)
+  // - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
   @ViewChildren('fileupload') fileuploads!:QueryList<ElementRef<HTMLInputElement>>;
 
   @ViewChild('img1_1', { static: true }) img1_1!: ElementRef<HTMLImageElement>;
@@ -77,27 +84,28 @@ export class AppComponent implements OnInit, AfterViewInit{
   @ViewChild('img1_4', { static: true }) img1_4!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_5', { static: true }) img1_5!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_6', { static: true }) img1_6!: ElementRef<HTMLImageElement>;
+
   @ViewChild('paspartu', { static: true }) paspartu!: ElementRef<HTMLElement>;
   @ViewChild('zrzutKolazu', { static: true }) zrzutKolazu!: ElementRef<HTMLElement>;//to jest niewidoczne, ale jest i ma wysokosc 100vh
 
   //kanwasy, bo przy wykorzystaniu filtrow trzeba przerysowac rysunek z filtrami, bo html2canvas nie wszystkie cssy bierze pod uwage 
-  @ViewChild('canvas_1', { static: true }) canvas_1!: ElementRef<HTMLCanvasElement>;
+/*   @ViewChild('canvas_1', { static: true }) canvas_1!: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvas_2', { static: true }) canvas_2!: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvas_3', { static: true }) canvas_3!: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvas_4', { static: true }) canvas_4!: ElementRef<HTMLCanvasElement>;
   @ViewChild('canvas_5', { static: true }) canvas_5!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvas_6', { static: true }) canvas_6!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('canvas_6', { static: true }) canvas_6!: ElementRef<HTMLCanvasElement>; */
 
   /* 
   * do resetowania inputfile'ow, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change)
   * - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
   */
-  @ViewChild('fileUpload1_1', {static: true}) fileUpload1_1!: ElementRef<HTMLInputElement>;
+/*   @ViewChild('fileUpload1_1', {static: true}) fileUpload1_1!: ElementRef<HTMLInputElement>;
   @ViewChild('fileUpload1_2', {static: true}) fileUpload1_2!: ElementRef<HTMLInputElement>;
   @ViewChild('fileUpload1_3', {static: true}) fileUpload1_3!: ElementRef<HTMLInputElement>;
   @ViewChild('fileUpload1_4', {static: true}) fileUpload1_4!: ElementRef<HTMLInputElement>;
   @ViewChild('fileUpload1_5', {static: true}) fileUpload1_5!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileUpload1_6', {static: true}) fileUpload1_6!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileUpload1_6', {static: true}) fileUpload1_6!: ElementRef<HTMLInputElement>; */
 
   imgSrcDoPrzesuniecia!: HTMLImageElement|undefined;
 
@@ -153,12 +161,12 @@ export class AppComponent implements OnInit, AfterViewInit{
     {nazwa:'invert',nazwaWysw:'negatyw',wartDomysl:0,min:'0',max:'100',jednostka:'%'},
     {nazwa:'blur',nazwaWysw:'rozmycie',wartDomysl:0,min:'0',max:'10',jednostka:'px'}
   ];
-  img1_1ZastosowaneFiltry:zastosowanyFiltr[] = [];
+  /*img1_1ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_2ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_3ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_4ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_5ZastosowaneFiltry:zastosowanyFiltr[] = [];
-  img1_6ZastosowaneFiltry:zastosowanyFiltr[] = [];
+  img1_6ZastosowaneFiltry:zastosowanyFiltr[] = [];*/
 
   zmianaGornegoMarginesuKolazu(){//margines, wysrodkowanie kolazu na zmiane jego rozmiaru
     //trzeba policzyc, zeby przy duzych kolazach nie srodkowal, a robil margin=0 top=0 
