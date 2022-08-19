@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild, Inject, ChangeDetectorRef, AfterViewInit, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, Inject, ChangeDetectorRef, AfterViewInit, OnInit, ViewChildren, QueryList } from '@angular/core';
 import html2canvas from 'html2canvas';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
@@ -17,11 +17,12 @@ export interface zastosowanyFiltr{
 
 export interface parametryZdjecia{
   url:string,
-  img:HTMLImageElement,
+  img?:ElementRef<HTMLImageElement>,
   mouseDown:boolean,
-  kanw:HTMLCanvasElement,
+  kanw?:ElementRef<HTMLCanvasElement>,
   zastosowaneFiltry:zastosowanyFiltr[],
-  fileUpload:HTMLInputElement
+  fileUpload?:ElementRef<HTMLInputElement>,
+  id:string
 }
 
 @Component({
@@ -29,9 +30,46 @@ export interface parametryZdjecia{
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit{
 
   constructor(public dialog: MatDialog, private cdr:ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    /*
+     * Najpierw wpełniam tablice parametryZdjec bez referencji z DOMa, bo ich jeszcze przecież nie ma
+     * Potem w afterViewInit jak już są img, fileUploady i canvasy, to przelatuje ją jeszcze raz i uzupełniam rzeczonymi elementami z DOMa
+     */
+    for(let i=0;i<9;i++){
+      this.parametryZdjec.push({
+        url:'',
+        //img: new Image(),
+        mouseDown:false,
+        //kanw: new HTMLCanvasElement(),
+        zastosowaneFiltry:[],
+        //fileUpload: new HTinpuMLInputElement(),
+        id:'img1_'+(i+1)
+      });
+    }
+  }
+  ngAfterViewInit(){
+    //let arrImagesow = this.images.toArray();
+    let iterator = 0;
+    this.parametryZdjec.forEach((v)=>{
+      v.img = this.images.get(iterator);
+      v.kanw = this.canvases.get(iterator);
+      v.fileUpload = this.fileuploads.get(iterator);
+      console.log(v.img);
+      iterator++;
+    });
+    console.log(this.images.toArray());
+  }
+
+  parametryZdjec:parametryZdjecia[] = [];
+
+  //ViewChildren z QueryList sie sotsuje, gdy mamy w ngForze np #img i on wszystkie #img w ten sposób magicznie obczai
+  @ViewChildren('img') images!:QueryList<ElementRef<HTMLImageElement>>;
+  @ViewChildren('canvas') canvases!:QueryList<ElementRef<HTMLCanvasElement>>;
+  @ViewChildren('fileupload') fileuploads!:QueryList<ElementRef<HTMLInputElement>>;
 
   @ViewChild('img1_1', { static: true }) img1_1!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_2', { static: true }) img1_2!: ElementRef<HTMLImageElement>;
@@ -122,8 +160,6 @@ export class AppComponent {
   img1_5ZastosowaneFiltry:zastosowanyFiltr[] = [];
   img1_6ZastosowaneFiltry:zastosowanyFiltr[] = [];
 
-  maxLiczbaZdjec:number = 9;
-
   zmianaGornegoMarginesuKolazu(){//margines, wysrodkowanie kolazu na zmiane jego rozmiaru
     //trzeba policzyc, zeby przy duzych kolazach nie srodkowal, a robil margin=0 top=0 
     //czyli jak rozmiarKolazu > 100vh - padding
@@ -136,12 +172,18 @@ export class AppComponent {
       //this.marginTopKolazu = wysokoscEkranu/2 - this.rozmiarKolazu/2
     }
     //this.cdr.detectChanges();
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_1.nativeElement);
+    /*this.wpasujZdjeciePoZmianieSzablonu(this.img1_1.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_2.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_3.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_4.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_5.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_6.nativeElement);
+    this.wpasujZdjeciePoZmianieSzablonu(this.img1_6.nativeElement);*/
+    
+    this.parametryZdjec.forEach((v)=>{
+      if (v.img)
+      this.wpasujZdjeciePoZmianieSzablonu(v.img.nativeElement);
+    });
+
   }
 
   zrobZrzut(){
@@ -153,11 +195,19 @@ export class AppComponent {
       this.zrzutKolazu.nativeElement.removeChild(this.zrzutKolazu.nativeElement.children[0]);
     }
     
-    if(this.img1_1ZastosowaneFiltry.length>0 || this.img1_2ZastosowaneFiltry.length>0 || this.img1_3ZastosowaneFiltry.length>0 ||
-        this.img1_4ZastosowaneFiltry.length>0 || this.img1_5ZastosowaneFiltry.length>0 || this.img1_6ZastosowaneFiltry.length>0){
+    let czyZastosowanoFiltry:boolean = false;
+
+    this.parametryZdjec.forEach((val)=>{
+      if(val.zastosowaneFiltry.length>0){
+        czyZastosowanoFiltry = true;
+      }
+    });
+
+    if(czyZastosowanoFiltry/*this.img1_1ZastosowaneFiltry.length>0 || this.img1_2ZastosowaneFiltry.length>0 || this.img1_3ZastosowaneFiltry.length>0 ||
+        this.img1_4ZastosowaneFiltry.length>0 || this.img1_5ZastosowaneFiltry.length>0 || this.img1_6ZastosowaneFiltry.length>0*/){
           
       alert('Pogorszenie jakości cyklisty z racji filtrów i konieczności zastosowania innej metody renderingu zrzutu. Zastosowanie filtra w jakimkolwiek zdjęciu wpływa na jakość całego kolarza.. kolażu');
-      
+      /*
       const tablicaKanwasuf = [
         {'kanw':this.canvas_1,'img':this.img1_1},
         {'kanw':this.canvas_2,'img':this.img1_2},
@@ -165,28 +215,30 @@ export class AppComponent {
         {'kanw':this.canvas_4,'img':this.img1_4},
         {'kanw':this.canvas_5,'img':this.img1_5},
         {'kanw':this.canvas_6,'img':this.img1_6}
-        ];
+        ];*/
 
-      tablicaKanwasuf.forEach((val)=>{
-        //najpierw rozciagamy kanwasa do rozmiarow zdjecia a potem go skalujemy-dopasowujemy, bo inaczej ma kiepska jakosc
-        val.kanw.nativeElement.width = val.img.nativeElement.width;
-        val.kanw.nativeElement.height = val.img.nativeElement.height;
-        val.kanw.nativeElement.style.setProperty('visibility','visible');
-        const context = val.kanw.nativeElement.getContext('2d');
-        if (context != null) {
-          context.filter = getComputedStyle(val.img.nativeElement).filter//'hue-rotate(180deg)';
-          //context.imageSmoothingEnabled = false;
-    
-          val.img.nativeElement.style.setProperty('display', 'none');
-    
-          context.drawImage(val.img.nativeElement, 0, 0, val.img.nativeElement.width, val.img.nativeElement.height,
-            0, 0, val.kanw.nativeElement.width, val.kanw.nativeElement.height);
+      this.parametryZdjec.forEach((val)=>{
+        if(val.img && val.kanw){
+          //najpierw rozciagamy kanwasa do rozmiarow zdjecia a potem go skalujemy-dopasowujemy, bo inaczej ma kiepska jakosc
+          val.kanw.nativeElement.width = val.img.nativeElement.width;
+          val.kanw.nativeElement.height = val.img.nativeElement.height;
+          val.kanw.nativeElement.style.setProperty('visibility','visible');
+          const context = val.kanw.nativeElement.getContext('2d');
+          if (context != null) {
+            context.filter = getComputedStyle(val.img.nativeElement).filter//'hue-rotate(180deg)';
+            //context.imageSmoothingEnabled = false;
+      
+            val.img.nativeElement.style.setProperty('display', 'none');
+      
+            context.drawImage(val.img.nativeElement, 0, 0, val.img.nativeElement.width, val.img.nativeElement.height,
+              0, 0, val.kanw.nativeElement.width, val.kanw.nativeElement.height);
+          }
+          //dopasowanie wziete od img
+          val.kanw.nativeElement.style.setProperty('width', val.img.nativeElement.style.getPropertyValue('width'));
+          val.kanw.nativeElement.style.setProperty('height', val.img.nativeElement.style.getPropertyValue('height'));
+          val.kanw.nativeElement.style.setProperty('top', val.img.nativeElement.style.getPropertyValue('top'));
+          val.kanw.nativeElement.style.setProperty('left', val.img.nativeElement.style.getPropertyValue('left'));
         }
-        //dopasowanie wziete od img
-        val.kanw.nativeElement.style.setProperty('width', val.img.nativeElement.style.getPropertyValue('width'));
-        val.kanw.nativeElement.style.setProperty('height', val.img.nativeElement.style.getPropertyValue('height'));
-        val.kanw.nativeElement.style.setProperty('top', val.img.nativeElement.style.getPropertyValue('top'));
-        val.kanw.nativeElement.style.setProperty('left', val.img.nativeElement.style.getPropertyValue('left'));
       });
     }
 
@@ -202,24 +254,26 @@ export class AppComponent {
     //this.img1_2.nativeElement.style.setProperty('width','100px');
   }
 
-  zamknijZrzut(){
-    this.zrzutKolazu.nativeElement.style.setProperty('visibility','hidden');
-    this.zrzutKolazu.nativeElement.style.setProperty('z-index','-1');
+  zamknijZrzut() {
+    this.zrzutKolazu.nativeElement.style.setProperty('visibility', 'hidden');
+    this.zrzutKolazu.nativeElement.style.setProperty('z-index', '-1');
     this.zrzutKolazuZrobiony = false;
 
-    const tablicaKanwasuf = [
+    /*const tablicaKanwasuf = [
       {'kanw':this.canvas_1,'img':this.img1_1},
       {'kanw':this.canvas_2,'img':this.img1_2},
       {'kanw':this.canvas_3,'img':this.img1_3},
       {'kanw':this.canvas_4,'img':this.img1_4},
       {'kanw':this.canvas_5,'img':this.img1_5},
       {'kanw':this.canvas_6,'img':this.img1_6}
-      ];
+    ];*/
 
-      tablicaKanwasuf.forEach((val)=>{
-        val.kanw.nativeElement.style.setProperty('visibility','hidden');
-        val.img.nativeElement.style.setProperty('display','inherit');
-      });
+    this.parametryZdjec.forEach((val) => {
+      if (val.img && val.kanw) {
+        val.kanw.nativeElement.style.setProperty('visibility', 'hidden');
+        val.img.nativeElement.style.setProperty('display', 'inherit');
+      }
+    });
   }
 
   pobierzZrzut(){
@@ -250,12 +304,18 @@ export class AppComponent {
   wybierzKolaz(kolaz:string){
     this.wybranySzablon = kolaz;
     this.cdr.detectChanges();
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_1.nativeElement);
+    /*this.wpasujZdjeciePoZmianieSzablonu(this.img1_1.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_2.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_3.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_4.nativeElement);
     this.wpasujZdjeciePoZmianieSzablonu(this.img1_5.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_6.nativeElement);
+    this.wpasujZdjeciePoZmianieSzablonu(this.img1_6.nativeElement);*/
+
+    this.parametryZdjec.forEach((v)=>{
+      if (v.img)
+      this.wpasujZdjeciePoZmianieSzablonu(v.img.nativeElement);
+    });
+
   }
 
   /*
@@ -410,7 +470,19 @@ export class AppComponent {
 
         };
 
-        if (el.id=='img1_1') {
+        this.parametryZdjec.forEach((v)=>{
+          if(v.id==el.id){
+            v.url=ev.target.result;
+            if(v.img)
+              v.img.nativeElement.src=ev.target.result;
+            
+            //resetowanie, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change) - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
+            if(v.fileUpload)
+              v.fileUpload.nativeElement.value = '';
+          }
+        });
+
+        /*if (el.id=='img1_1') {
           this.url1_1 = ev.target.result;//to jest blob jakiś w stringu praktycznie zapisany - spoko
         }
 
@@ -432,27 +504,30 @@ export class AppComponent {
 
         if (el.id=='img1_6') {
           this.url1_6 = ev.target.result;
-        }
+        }*/
       }
     }
 
     //resetowanie, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change) - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
-    this.fileUpload1_1.nativeElement.value = '';
+    /*this.fileUpload1_1.nativeElement.value = '';
     this.fileUpload1_2.nativeElement.value = '';
     this.fileUpload1_3.nativeElement.value = '';
     this.fileUpload1_4.nativeElement.value = '';
     this.fileUpload1_5.nativeElement.value = '';
-    this.fileUpload1_6.nativeElement.value = '';
+    this.fileUpload1_6.nativeElement.value = '';*/
     //console.log(el.width);//el jest z parametru i w parametrze jeszcze nie ma w nim obrazka i jego rozmiaru
   }
 
   wyczyscZdjecia(){
-    this.url1_1 = '';
+    /*this.url1_1 = '';
     this.url1_2 = '';
     this.url1_3 = '';
     this.url1_4 = '';
     this.url1_5 = '';
-    this.url1_6 = '';
+    this.url1_6 = '';*/
+    this.parametryZdjec.forEach((v)=>{
+      v.url='';
+    });
   }
 
   @HostListener('document:mousemove', ['$event']) documentClickEvent($event: MouseEvent) {
@@ -460,7 +535,23 @@ export class AppComponent {
     this.kursorX = $event.clientX;
     this.kursorY = $event.clientY;
 
-    if(this.img1_1MouseDown){
+    this.parametryZdjec.forEach((v)=>{
+      if(v.mouseDown){
+        //console.log(v.id,v.img);
+
+        if(this.przesuwaniePoziom)
+          if(v.img)
+            v.img.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
+            //v.img.style.left = (this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px';
+        if(this.przesuwaniePion)
+          if(v.img) 
+            v.img.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
+            //v.img.style.top = (this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px';
+
+      }
+    });
+
+    /*if(this.img1_1MouseDown){
       if(this.przesuwaniePoziom)
         this.img1_1.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
       if(this.przesuwaniePion)
@@ -500,7 +591,7 @@ export class AppComponent {
         this.img1_6.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
       if(this.przesuwaniePion)
         this.img1_6.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }
+    }*/
 
     // //console.log('img1: '+this.img1_1.nativeElement.offsetLeft);
     // console.log('img2: '+this.img1_2.nativeElement.offsetLeft);
@@ -581,7 +672,7 @@ export class AppComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(zdj.id=='img1_1'){
+        /*if(zdj.id=='img1_1'){
           this.img1_1ZastosowaneFiltry = result;
         }
         if(zdj.id=='img1_2'){
@@ -598,7 +689,14 @@ export class AppComponent {
         }
         if(zdj.id=='img1_6'){
           this.img1_6ZastosowaneFiltry = result;
-        }
+        }*/
+
+        this.parametryZdjec.forEach((v)=>{
+          if (v.img && v.id == zdj.id){
+            v.zastosowaneFiltry = result;
+          }
+        });
+
       }
       //console.dir(result);
     });
@@ -606,7 +704,7 @@ export class AppComponent {
 
   wyczyscFiltryZdjecia(zdj:HTMLImageElement){
     //jak parametrem przkeazuje zastosowaneFiltry to nie dziala, więc:
-    if(zdj.id=='img1_1'){
+    /*if(zdj.id=='img1_1'){
       this.img1_1ZastosowaneFiltry = [];
       this.img1_1ZastosowaneFiltry.length = 0;
     }
@@ -629,8 +727,15 @@ export class AppComponent {
     if(zdj.id=='img1_6'){
       this.img1_6ZastosowaneFiltry = [];
       this.img1_6ZastosowaneFiltry.length = 0;
-    }
+    }*/
     
+    this.parametryZdjec.forEach((v)=>{
+      if (v.img && v.id == zdj.id){
+        v.zastosowaneFiltry = [];
+        v.zastosowaneFiltry.length = 0;
+      }
+    });
+
     zdj.style.setProperty('filter','none');    
   }
   

@@ -1,9 +1,9 @@
-<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_1)" #fileUpload1_1>
+<!--<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_1)" #fileUpload1_1>
 <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_2)" #fileUpload1_2>
 <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_3)" #fileUpload1_3>
 <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_4)" #fileUpload1_4>
 <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_5)" #fileUpload1_5>
-<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_6)" #fileUpload1_6>
+<input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img1_6)" #fileUpload1_6>-->
 
 <mat-progress-bar mode="indeterminate" *ngIf="loaderZrzut" color="accent" class="loaderZrzut"></mat-progress-bar>
 
@@ -84,6 +84,47 @@
 
               <div id="kolaz" [ngStyle]="{'gap': gruboscPaspartu+ 'px'}" [ngClass]="wybranySzablon">
 
+
+                     <div (drop)="onFileDroped($event,img)" (dragover)="stopujZapobiegaj($event)" (dragleave)="usunPrzezroczystosc($event)"
+                     (mouseup)="mouseUp(img)"
+                     *ngFor="let pz of parametryZdjec; let i = index">
+
+                            <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img)" #fileUpload>
+                            
+                            <button *ngIf="pz.url!=''" mat-icon-button [matMenuTriggerFor]="menu" class="menuObrazkaBtn">
+                                   <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="fileUpload.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="wysrodkujZdjecie(img)">wyśrodkuj</button>
+                                   <button mat-menu-item (click)="skalujZdjecie(img)">skaluj</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img,'pion')">dopasuj w pionie</button>
+                                   <button mat-menu-item (click)="dopasujZdjecie(img,'poziom')">dopasuj w poziomie</button>
+                                   <button mat-menu-item [matMenuTriggerFor]="menuFiltry">filtry</button>
+                            </mat-menu>
+                            <mat-menu #menuFiltry="matMenu" xPosition="before">
+                                   <button mat-menu-item (click)="wyczyscFiltryZdjecia(img)">usuń filtry</button>
+                                   <button mat-menu-item *ngFor="let f of filtry" (click)="filtrujZdjecie(img,pz.zastosowaneFiltry,f.nazwa)">{{f.nazwaWysw}}</button>
+                            </mat-menu>
+                            
+                            <div class="dodajObraz" *ngIf="pz.url==''" (click)="fileUpload.click()" matRipple
+                            matTooltip="kliknij lub przesuń w to pole zdjęcie z menedżera plików" matTooltipPosition="above">
+                                   <button mat-icon-button>
+                                          <mat-icon>add</mat-icon>
+                                   </button>
+                            </div>
+
+                            <img id="{{pz.id}}" #img [src]="pz.url" draggable="false"
+                            (mousedown)="pz.mouseDown=true;kursoryPoczatkowe(img.offsetTop,img.offsetLeft);mouseDown(img)"
+                            (mouseup)="pz.mouseDown=false" (mouseout)="pz.mouseDown=false"/>
+
+                            <canvas #canvas></canvas>
+
+                     </div>
+
+
+                     <!--888888888888888 -->
+                     <!--
                      <div (drop)="onFileDroped($event,img1_1)" (dragover)="stopujZapobiegaj($event)" (dragleave)="usunPrzezroczystosc($event)"
                      (mouseup)="mouseUp(img1_1)">
                             
@@ -117,7 +158,7 @@
                             <canvas #canvas_1></canvas>
 
                      </div>
-                     <!-- gdyby nie zmianna grubosci paspartu to zrobilbym w cssie nth-childem w danej klasie -->
+                     --><!-- gdyby nie zmianna grubosci paspartu to zrobilbym w cssie nth-childem w danej klasie --><!--
                      <div [ngStyle]="{'border':(wybranySzablon === 'maleNaDuzym') ? gruboscPaspartu+'px solid '+color : 'none' }"
                      (drop)="onFileDroped($event,img1_2)" (dragover)="stopujZapobiegaj($event)" (dragleave)="usunPrzezroczystosc($event)"
                      (mouseup)="mouseUp(img1_2)">
@@ -287,7 +328,7 @@
 
                             <canvas #canvas_6></canvas>
 
-                     </div>
+                     </div>-->
 
               </div>
        </div>
