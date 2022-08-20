@@ -72,36 +72,10 @@ export class AppComponent implements OnInit, AfterViewInit{
 
   // do resetowania inputfile'ow, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change)
   // - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
-  @ViewChildren('fileupload') fileuploads!:QueryList<ElementRef<HTMLInputElement>>;
-
-/*   @ViewChild('img1_1', { static: true }) img1_1!: ElementRef<HTMLImageElement>;
-  @ViewChild('img1_2', { static: true }) img1_2!: ElementRef<HTMLImageElement>;
-  @ViewChild('img1_3', { static: true }) img1_3!: ElementRef<HTMLImageElement>;
-  @ViewChild('img1_4', { static: true }) img1_4!: ElementRef<HTMLImageElement>;
-  @ViewChild('img1_5', { static: true }) img1_5!: ElementRef<HTMLImageElement>;
-  @ViewChild('img1_6', { static: true }) img1_6!: ElementRef<HTMLImageElement>; */
+  @ViewChildren('fileUpload') fileuploads!:QueryList<ElementRef<HTMLInputElement>>;
 
   @ViewChild('paspartu', { static: true }) paspartu!: ElementRef<HTMLElement>;
   @ViewChild('zrzutKolazu', { static: true }) zrzutKolazu!: ElementRef<HTMLElement>;//to jest niewidoczne, ale jest i ma wysokosc 100vh
-
-  //kanwasy, bo przy wykorzystaniu filtrow trzeba przerysowac rysunek z filtrami, bo html2canvas nie wszystkie cssy bierze pod uwage 
-/*   @ViewChild('canvas_1', { static: true }) canvas_1!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvas_2', { static: true }) canvas_2!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvas_3', { static: true }) canvas_3!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvas_4', { static: true }) canvas_4!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvas_5', { static: true }) canvas_5!: ElementRef<HTMLCanvasElement>;
-  @ViewChild('canvas_6', { static: true }) canvas_6!: ElementRef<HTMLCanvasElement>; */
-
-  /* 
-  * do resetowania inputfile'ow, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change)
-  * - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
-  */
-/*   @ViewChild('fileUpload1_1', {static: true}) fileUpload1_1!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileUpload1_2', {static: true}) fileUpload1_2!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileUpload1_3', {static: true}) fileUpload1_3!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileUpload1_4', {static: true}) fileUpload1_4!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileUpload1_5', {static: true}) fileUpload1_5!: ElementRef<HTMLInputElement>;
-  @ViewChild('fileUpload1_6', {static: true}) fileUpload1_6!: ElementRef<HTMLInputElement>; */
 
   imgSrcDoPrzesuniecia!: HTMLImageElement|undefined;
 
@@ -125,20 +99,6 @@ export class AppComponent implements OnInit, AfterViewInit{
   przesuwaniePion = true;
   przesuwaniePoziom = true;
 
-/*   url1_1 = '';
-  url1_2 = '';
-  url1_3 = '';
-  url1_4 = '';
-  url1_5 = '';
-  url1_6 = ''; */
-
-/*   img1_1MouseDown = false;
-  img1_2MouseDown = false;
-  img1_3MouseDown = false;
-  img1_4MouseDown = false;
-  img1_5MouseDown = false;
-  img1_6MouseDown = false; */
-
   kursorX = 0;
   kursorY = 0;
   kursorXpoczatkowy = 0;
@@ -158,12 +118,6 @@ export class AppComponent implements OnInit, AfterViewInit{
     {nazwa:'invert',nazwaWysw:'negatyw',wartDomysl:0,min:'0',max:'100',jednostka:'%'},
     {nazwa:'blur',nazwaWysw:'rozmycie',wartDomysl:0,min:'0',max:'10',jednostka:'px'}
   ];
-  /*img1_1ZastosowaneFiltry:zastosowanyFiltr[] = [];
-  img1_2ZastosowaneFiltry:zastosowanyFiltr[] = [];
-  img1_3ZastosowaneFiltry:zastosowanyFiltr[] = [];
-  img1_4ZastosowaneFiltry:zastosowanyFiltr[] = [];
-  img1_5ZastosowaneFiltry:zastosowanyFiltr[] = [];
-  img1_6ZastosowaneFiltry:zastosowanyFiltr[] = [];*/
 
   zmianaGornegoMarginesuKolazu(){//margines, wysrodkowanie kolazu na zmiane jego rozmiaru
     //trzeba policzyc, zeby przy duzych kolazach nie srodkowal, a robil margin=0 top=0 
@@ -177,12 +131,6 @@ export class AppComponent implements OnInit, AfterViewInit{
       //this.marginTopKolazu = wysokoscEkranu/2 - this.rozmiarKolazu/2
     }
     //this.cdr.detectChanges();
-    /*this.wpasujZdjeciePoZmianieSzablonu(this.img1_1.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_2.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_3.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_4.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_5.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_6.nativeElement);*/
     
     this.parametryZdjec.forEach((v)=>{
       if (v.img)
@@ -212,15 +160,6 @@ export class AppComponent implements OnInit, AfterViewInit{
         this.img1_4ZastosowaneFiltry.length>0 || this.img1_5ZastosowaneFiltry.length>0 || this.img1_6ZastosowaneFiltry.length>0*/){
           
       alert('Pogorszenie jakości cyklisty z racji filtrów i konieczności zastosowania innej metody renderingu zrzutu. Zastosowanie filtra w jakimkolwiek zdjęciu wpływa na jakość całego kolarza.. kolażu');
-      /*
-      const tablicaKanwasuf = [
-        {'kanw':this.canvas_1,'img':this.img1_1},
-        {'kanw':this.canvas_2,'img':this.img1_2},
-        {'kanw':this.canvas_3,'img':this.img1_3},
-        {'kanw':this.canvas_4,'img':this.img1_4},
-        {'kanw':this.canvas_5,'img':this.img1_5},
-        {'kanw':this.canvas_6,'img':this.img1_6}
-        ];*/
 
       this.parametryZdjec.forEach((val)=>{
         if(val.img && val.kanw){
@@ -264,15 +203,6 @@ export class AppComponent implements OnInit, AfterViewInit{
     this.zrzutKolazu.nativeElement.style.setProperty('z-index', '-1');
     this.zrzutKolazuZrobiony = false;
 
-    /*const tablicaKanwasuf = [
-      {'kanw':this.canvas_1,'img':this.img1_1},
-      {'kanw':this.canvas_2,'img':this.img1_2},
-      {'kanw':this.canvas_3,'img':this.img1_3},
-      {'kanw':this.canvas_4,'img':this.img1_4},
-      {'kanw':this.canvas_5,'img':this.img1_5},
-      {'kanw':this.canvas_6,'img':this.img1_6}
-    ];*/
-
     this.parametryZdjec.forEach((val) => {
       if (val.img && val.kanw) {
         val.kanw.nativeElement.style.setProperty('visibility', 'hidden');
@@ -309,18 +239,11 @@ export class AppComponent implements OnInit, AfterViewInit{
   wybierzKolaz(kolaz:string){
     this.wybranySzablon = kolaz;
     this.cdr.detectChanges();
-    /*this.wpasujZdjeciePoZmianieSzablonu(this.img1_1.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_2.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_3.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_4.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_5.nativeElement);
-    this.wpasujZdjeciePoZmianieSzablonu(this.img1_6.nativeElement);*/
 
     this.parametryZdjec.forEach((v)=>{
       if (v.img)
       this.wpasujZdjeciePoZmianieSzablonu(v.img.nativeElement);
     });
-
   }
 
   /*
@@ -338,112 +261,31 @@ export class AppComponent implements OnInit, AfterViewInit{
 
   mouseUp(zdj:HTMLImageElement){//do przesuwania zdjec miedzy divami (wymiany zdjec)
 
-    if(this.imgSrcDoPrzesuniecia != undefined && this.imgSrcDoPrzesuniecia.id != zdj.id){
+    if (this.imgSrcDoPrzesuniecia != undefined && this.imgSrcDoPrzesuniecia.id != zdj.id) {
       //console.log('przesuwam');
       let zdjTempSrc = zdj.src;
       let urlTemp = '';
 
       zdj.src = this.imgSrcDoPrzesuniecia.src;
-      
+
       //potrzebne zeby jak do pustego przesuwam to sie w pustym pojawilo zdjecie (*ngIf="url_x != ''")
-      this.parametryZdjec.forEach((val)=>{
-        if(val.id==zdj.id){
+      this.parametryZdjec.forEach((val) => {
+        if (val.id == zdj.id) {
           urlTemp = val.url;
           val.url = zdj.src;
         }
       });
 
-
-/*       if(zdj.id=='img1_1'){
-        urlTemp = this.url1_1;
-        this.url1_1 = this.imgSrcDoPrzesuniecia.src;
-      }
-      if(zdj.id=='img1_2'){
-        urlTemp = this.url1_2;
-        this.url1_2 = this.imgSrcDoPrzesuniecia.src;
-      }
-      if(zdj.id=='img1_3'){
-        urlTemp = this.url1_3;
-        this.url1_3 = this.imgSrcDoPrzesuniecia.src;
-      }
-      if(zdj.id=='img1_4'){
-        urlTemp = this.url1_4;
-        this.url1_4 = this.imgSrcDoPrzesuniecia.src;
-      }
-      if(zdj.id=='img1_5'){
-        urlTemp = this.url1_5;
-        this.url1_5 = this.imgSrcDoPrzesuniecia.src;
-      }
-      if(zdj.id=='img1_6'){
-        urlTemp = this.url1_6;
-        this.url1_6 = this.imgSrcDoPrzesuniecia.src;
-      } */
-
       this.wpasujZdjeciePoZmianieSzablonu(zdj);
 
-/*       let tablicaImgow = [
-        {'srcUrl':this.url1_1,'img':this.img1_1},
-        {'srcUrl':this.url1_2,'img':this.img1_2},
-        {'srcUrl':this.url1_3,'img':this.img1_3},
-        {'srcUrl':this.url1_4,'img':this.img1_4},
-        {'srcUrl':this.url1_5,'img':this.img1_5},
-        {'srcUrl':this.url1_6,'img':this.img1_6}
-        ]; */
-  
-      /*tablicaImgow.forEach((val)=>{
-        if(this.imgSrcDoPrzesuniecia != undefined && val.img.nativeElement.id == this.imgSrcDoPrzesuniecia.id){
+      this.parametryZdjec.forEach((val) => {
+        if (val.img && this.imgSrcDoPrzesuniecia != undefined && val.id == this.imgSrcDoPrzesuniecia.id) {
           val.img.nativeElement.src = zdjTempSrc;//to dziala jak referencja
-          val.srcUrl = zdjTempSrc;//a to nie dziala jak referencja, czyli mozna wywalic i w ogole mozna klucze wywalic i tylko tabelke imgow zrobic
-          //czyli znowu musze na pałę:
-          if(this.imgSrcDoPrzesuniecia.id=='img1_1'){
-            this.url1_1 = urlTemp;
-          }
-          if(this.imgSrcDoPrzesuniecia.id=='img1_2'){
-            this.url1_2 = urlTemp;
-          }
-          if(this.imgSrcDoPrzesuniecia.id=='img1_3'){
-            this.url1_3 = urlTemp;
-          }
-          if(this.imgSrcDoPrzesuniecia.id=='img1_4'){
-            this.url1_4 = urlTemp;
-          }
-          if(this.imgSrcDoPrzesuniecia.id=='img1_5'){
-            this.url1_5 = urlTemp;
-          }
-          if(this.imgSrcDoPrzesuniecia.id=='img1_6'){
-            this.url1_6 = urlTemp;
-          }
+          val.url = urlTemp;
           //console.log(urlTemp);
 
           this.wpasujZdjeciePoZmianieSzablonu(val.img.nativeElement);
-        }*/
-        this.parametryZdjec.forEach((val)=>{
-          if(val.img && this.imgSrcDoPrzesuniecia != undefined && val.id == this.imgSrcDoPrzesuniecia.id){
-            val.img.nativeElement.src = zdjTempSrc;//to dziala jak referencja
-            val.url = urlTemp;//a to nie dziala jak referencja, czyli mozna wywalic i w ogole mozna klucze wywalic i tylko tabelke imgow zrobic
-            //czyli znowu musze na pałę:
-            /*if(this.imgSrcDoPrzesuniecia.id=='img1_1'){
-              this.url1_1 = urlTemp;
-            }
-            if(this.imgSrcDoPrzesuniecia.id=='img1_2'){
-              this.url1_2 = urlTemp;
-            }
-            if(this.imgSrcDoPrzesuniecia.id=='img1_3'){
-              this.url1_3 = urlTemp;
-            }
-            if(this.imgSrcDoPrzesuniecia.id=='img1_4'){
-              this.url1_4 = urlTemp;
-            }
-            if(this.imgSrcDoPrzesuniecia.id=='img1_5'){
-              this.url1_5 = urlTemp;
-            }
-            if(this.imgSrcDoPrzesuniecia.id=='img1_6'){
-              this.url1_6 = urlTemp;
-            }*/
-            //console.log(urlTemp);
-  
-            this.wpasujZdjeciePoZmianieSzablonu(val.img.nativeElement);
-          }
+        }
         /*if(this.imgSrcDoPrzesuniecia != undefined && zdj.id == val.img.nativeElement.id){
           val.srcUrl = this.imgSrcDoPrzesuniecia.src;//to niestety nie działa jakby było referencją, więc wyżej spr id i this.url1_x = src
           this.cdr.detectChanges();
@@ -476,7 +318,7 @@ export class AppComponent implements OnInit, AfterViewInit{
   onFileSelected(event:any,el:HTMLImageElement) {
     // Chcialbym, zeby po zaladowaniu zdjecia zostalo ono wysrodkowane, ALE:
     // el z przekazanego parametru nie ma jeszcze aktualnych rozmiarow (nawet zadnych, jesli jest nowy)
-    // this.img1_x tez nie ma aktualnych
+    // this.img1_x tez nie ma aktualnych [edit: juz nie this.img1_x, tylko tablica parametryZdjec.url]
     // a wymiary z resulta mają faktyczny rozmiar zdjecia a nie przeskalowany w DOMie
     // this.cdr.detectChanges(); tez nie dziala - ale dziala przy usunieciu cienia przy zrzucie
     // EDIT: udalo sie! image.onload()
@@ -490,7 +332,7 @@ export class AppComponent implements OnInit, AfterViewInit{
       reader.readAsDataURL(file);
       reader.onload = (ev: any) => {
 
-        //el.src = ev.target.result; //pieknie działa i nie musialbym sprawdzac ktora fota, ale w htmlu do src ładuję this.url1_x i po nim ngIfuję
+        //el.src = ev.target.result; //pieknie działa i nie musialbym sprawdzac ktora fota, ale w htmlu do src ładuję url i po nim ngIfuję
 
         const image = new Image();
         image.src = ev.target.result;
@@ -516,56 +358,19 @@ export class AppComponent implements OnInit, AfterViewInit{
             v.url=ev.target.result;
             if(v.img)
               v.img.nativeElement.src=ev.target.result;
-            
             //resetowanie, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change) - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
             if(v.fileUpload)
               v.fileUpload.nativeElement.value = '';
           }
         });
 
-        /*if (el.id=='img1_1') {
-          this.url1_1 = ev.target.result;//to jest blob jakiś w stringu praktycznie zapisany - spoko
-        }
-
-        if (el.id=='img1_2') {
-          this.url1_2 = ev.target.result;
-        }
-
-        if (el.id=='img1_3') {
-          this.url1_3 = ev.target.result;
-        }
-
-        if (el.id=='img1_4') {
-          this.url1_4 = ev.target.result;
-        }
-
-        if (el.id=='img1_5') {
-          this.url1_5 = ev.target.result;
-        }
-
-        if (el.id=='img1_6') {
-          this.url1_6 = ev.target.result;
-        }*/
       }
     }
 
-    //resetowanie, zeby przy wyborze tego samego pliku przez ten sam input[file] odpalił (change) - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
-    /*this.fileUpload1_1.nativeElement.value = '';
-    this.fileUpload1_2.nativeElement.value = '';
-    this.fileUpload1_3.nativeElement.value = '';
-    this.fileUpload1_4.nativeElement.value = '';
-    this.fileUpload1_5.nativeElement.value = '';
-    this.fileUpload1_6.nativeElement.value = '';*/
     //console.log(el.width);//el jest z parametru i w parametrze jeszcze nie ma w nim obrazka i jego rozmiaru
   }
 
   wyczyscZdjecia(){
-    /*this.url1_1 = '';
-    this.url1_2 = '';
-    this.url1_3 = '';
-    this.url1_4 = '';
-    this.url1_5 = '';
-    this.url1_6 = '';*/
     this.parametryZdjec.forEach((v)=>{
       v.url='';
     });
@@ -591,48 +396,6 @@ export class AppComponent implements OnInit, AfterViewInit{
 
       }
     });
-
-    /*if(this.img1_1MouseDown){
-      if(this.przesuwaniePoziom)
-        this.img1_1.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
-      if(this.przesuwaniePion)
-        this.img1_1.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }
-
-    if(this.img1_2MouseDown){
-      if(this.przesuwaniePoziom)
-        this.img1_2.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
-      if(this.przesuwaniePion)
-        this.img1_2.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }
-
-    if(this.img1_3MouseDown){
-      if(this.przesuwaniePoziom)
-        this.img1_3.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
-      if(this.przesuwaniePion)
-        this.img1_3.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }
-
-    if(this.img1_4MouseDown){
-      if(this.przesuwaniePoziom)
-        this.img1_4.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
-      if(this.przesuwaniePion)
-        this.img1_4.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }
-
-    if(this.img1_5MouseDown){
-      if(this.przesuwaniePoziom)
-        this.img1_5.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
-      if(this.przesuwaniePion)
-        this.img1_5.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }
-
-    if(this.img1_6MouseDown){
-      if(this.przesuwaniePoziom)
-        this.img1_6.nativeElement.style.setProperty('left',(this.kursorX - this.kursorXpoczatkowy + this.xObrazekPoczatkowy)+'px');
-      if(this.przesuwaniePion)
-        this.img1_6.nativeElement.style.setProperty('top',(this.kursorY - this.kursorYpoczatkowy + this.yObrazekPoczatkowy)+'px');
-    }*/
 
     // //console.log('img1: '+this.img1_1.nativeElement.offsetLeft);
     // console.log('img2: '+this.img1_2.nativeElement.offsetLeft);
@@ -713,31 +476,11 @@ export class AppComponent implements OnInit, AfterViewInit{
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        /*if(zdj.id=='img1_1'){
-          this.img1_1ZastosowaneFiltry = result;
-        }
-        if(zdj.id=='img1_2'){
-          this.img1_2ZastosowaneFiltry = result;
-        }
-        if(zdj.id=='img1_3'){
-          this.img1_3ZastosowaneFiltry = result;
-        }
-        if(zdj.id=='img1_4'){
-          this.img1_4ZastosowaneFiltry = result;
-        }
-        if(zdj.id=='img1_5'){
-          this.img1_5ZastosowaneFiltry = result;
-        }
-        if(zdj.id=='img1_6'){
-          this.img1_6ZastosowaneFiltry = result;
-        }*/
-
         this.parametryZdjec.forEach((v)=>{
           if (v.img && v.id == zdj.id){
             v.zastosowaneFiltry = result;
           }
         });
-
       }
       //console.dir(result);
     });
@@ -745,31 +488,7 @@ export class AppComponent implements OnInit, AfterViewInit{
 
   wyczyscFiltryZdjecia(zdj:HTMLImageElement){
     //jak parametrem przkeazuje zastosowaneFiltry to nie dziala, więc:
-    /*if(zdj.id=='img1_1'){
-      this.img1_1ZastosowaneFiltry = [];
-      this.img1_1ZastosowaneFiltry.length = 0;
-    }
-    if(zdj.id=='img1_2'){
-      this.img1_2ZastosowaneFiltry = [];
-      this.img1_2ZastosowaneFiltry.length = 0;
-    }
-    if(zdj.id=='img1_3'){
-      this.img1_3ZastosowaneFiltry = [];
-      this.img1_3ZastosowaneFiltry.length = 0;
-    }
-    if(zdj.id=='img1_4'){
-      this.img1_4ZastosowaneFiltry = [];
-      this.img1_4ZastosowaneFiltry.length = 0;
-    }
-    if(zdj.id=='img1_5'){
-      this.img1_5ZastosowaneFiltry = [];
-      this.img1_5ZastosowaneFiltry.length = 0;
-    }
-    if(zdj.id=='img1_6'){
-      this.img1_6ZastosowaneFiltry = [];
-      this.img1_6ZastosowaneFiltry.length = 0;
-    }*/
-    
+
     this.parametryZdjec.forEach((v)=>{
       if (v.img && v.id == zdj.id){
         v.zastosowaneFiltry = [];
@@ -778,6 +497,33 @@ export class AppComponent implements OnInit, AfterViewInit{
     });
 
     zdj.style.setProperty('filter','none');    
+  }
+
+  utowrzNgStyle(wybranySzablon:string,nrDiva:number,gruboscPaspartu:number,kolor:string):object{
+    
+    let styl={ };
+
+    if(wybranySzablon=='maleNaCzterech' && nrDiva==4){
+      styl = {
+        'margin-top':'calc(-75% - '+(gruboscPaspartu)+'px)',
+        'border':gruboscPaspartu+'px solid '+kolor
+      };
+    }
+
+    if(wybranySzablon=='maleNaCzterech' && nrDiva!=4){
+      styl = {
+        'width':'calc(50% - '+(gruboscPaspartu/2)+'px)',
+        'height':'calc(50% - '+(gruboscPaspartu/2)+'px)'
+      };
+    }
+
+    if(wybranySzablon=='maleNaDuzym' && nrDiva==1){
+      styl = {
+        'border':gruboscPaspartu+'px solid '+kolor
+      };
+    }
+
+    return styl;
   }
   
 }
@@ -845,7 +591,6 @@ export class FiltrDialog implements AfterViewInit{
   cssWszystkieZastosowaneFiltry = '';
 
   ngAfterViewInit(): void {
-
 
     //UWAGA!!! jak appenduje bezposrednio this.data.zdj, to usuwa mi tego img z kolazu, dlatego zrobilem dodatkowa zmienna imarz = new Image();
     this.imarz.src = this.data.zdj.src;

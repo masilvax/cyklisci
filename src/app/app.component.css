@@ -173,10 +173,10 @@
     box-sizing: border-box;
 }
 .maleNaCzterech > div:nth-child(5){
-    width: 38%;
-    height: 38%;
-    margin-top: calc(-69% - 1px);
-    margin-left: calc(34% - 1px);
+    width: 50%;
+    height: 50%;
+    margin-top: calc(-75% - 1px);
+    margin-left: 25%;
     border: 2px solid #9FA8DA;
     box-sizing: border-box;
 }
@@ -188,7 +188,8 @@
 .kwadraty4inne > div:nth-child(n+5), .kwadraty4inneL > div:nth-child(n+5), .kwadraty4inneP > div:nth-child(n+5), .kwadraty4innePL > div:nth-child(n+5),
 .kwadraty4 > div:nth-child(n+5), .maleNaDuzym > div:nth-child(n+3), .spirala > div:nth-child(n+6),
 .kwadrat1 > div:nth-child(n+2),
-.maleNaCzterech > div:nth-child(n+6){
+.maleNaCzterech > div:nth-child(n+6),
+.kwadraty9 > div:nth-child(n+10){
     display: none;
 }
 /* KONIEC SZABLONY */
