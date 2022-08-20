@@ -16,13 +16,13 @@ export interface zastosowanyFiltr{
 }
 
 export interface parametryZdjecia{
+  id:string,
   url:string,
-  img?:ElementRef<HTMLImageElement>,
   mouseDown:boolean,
-  kanw?:ElementRef<HTMLCanvasElement>,
   zastosowaneFiltry:zastosowanyFiltr[],
+  img?:ElementRef<HTMLImageElement>,
   fileUpload?:ElementRef<HTMLInputElement>,
-  id:string
+  kanw?:ElementRef<HTMLCanvasElement>
 }
 
 @Component({
@@ -42,31 +42,27 @@ export class AppComponent implements OnInit, AfterViewInit{
     for(let i=0;i<9;i++){
       this.parametryZdjec.push({
         url:'',
-        //img: new Image(),
         mouseDown:false,
-        //kanw: new HTMLCanvasElement(),
         zastosowaneFiltry:[],
-        //fileUpload: new HTinpuMLInputElement(),
         id:'img1_'+(i+1)
       });
     }
   }
   ngAfterViewInit(){
     //let arrImagesow = this.images.toArray();
+    /* inicjalizacja elementów DOM wygenerowanych w petli ngFor  */
     let iterator = 0;
     this.parametryZdjec.forEach((v)=>{
       v.img = this.images.get(iterator);
       v.kanw = this.canvases.get(iterator);
       v.fileUpload = this.fileuploads.get(iterator);
-      console.log(v.img);
       iterator++;
     });
-    console.log(this.images.toArray());
   }
 
   parametryZdjec:parametryZdjecia[] = [];
 
-  //Ponizsze ViewChildreny z QueryListami laduje w afterViewInit do tablicy parametryZdjec:
+  /* Ponizsze ViewChildreny z QueryListami laduje w afterViewInit do tablicy parametryZdjec: */
 
   //ViewChildren z QueryList sie sotsuje, gdy mamy w ngForze np #img i on wszystkie #img w ten sposób magicznie obczai
   @ViewChildren('img') images!:QueryList<ElementRef<HTMLImageElement>>;
@@ -78,12 +74,12 @@ export class AppComponent implements OnInit, AfterViewInit{
   // - np po zamianie zdjec miejscami/divami albo po wyczyscZdjecia()
   @ViewChildren('fileupload') fileuploads!:QueryList<ElementRef<HTMLInputElement>>;
 
-  @ViewChild('img1_1', { static: true }) img1_1!: ElementRef<HTMLImageElement>;
+/*   @ViewChild('img1_1', { static: true }) img1_1!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_2', { static: true }) img1_2!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_3', { static: true }) img1_3!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_4', { static: true }) img1_4!: ElementRef<HTMLImageElement>;
   @ViewChild('img1_5', { static: true }) img1_5!: ElementRef<HTMLImageElement>;
-  @ViewChild('img1_6', { static: true }) img1_6!: ElementRef<HTMLImageElement>;
+  @ViewChild('img1_6', { static: true }) img1_6!: ElementRef<HTMLImageElement>; */
 
   @ViewChild('paspartu', { static: true }) paspartu!: ElementRef<HTMLElement>;
   @ViewChild('zrzutKolazu', { static: true }) zrzutKolazu!: ElementRef<HTMLElement>;//to jest niewidoczne, ale jest i ma wysokosc 100vh
@@ -116,9 +112,10 @@ export class AppComponent implements OnInit, AfterViewInit{
               'kwadraty2boczne1duzy','kwadraty2boczne1duzyL','kwadraty2boczne1duzyP','kwadraty2boczne1duzyPL',
               'podloga','podlogaP','innaPodloga',
               'maleNaDuzym','spirala',
-              'kwadrat1'];
+              'kwadrat1',
+              'kwadraty9','maleNaCzterech'];
 
-  gruboscPaspartu:string = '10';
+  gruboscPaspartu:number = 10;
   rozmiarKolazu:number = 900;
 
   color = '#FFFFFF';
@@ -128,19 +125,19 @@ export class AppComponent implements OnInit, AfterViewInit{
   przesuwaniePion = true;
   przesuwaniePoziom = true;
 
-  url1_1 = '';
+/*   url1_1 = '';
   url1_2 = '';
   url1_3 = '';
   url1_4 = '';
   url1_5 = '';
-  url1_6 = '';
+  url1_6 = ''; */
 
-  img1_1MouseDown = false;
+/*   img1_1MouseDown = false;
   img1_2MouseDown = false;
   img1_3MouseDown = false;
   img1_4MouseDown = false;
   img1_5MouseDown = false;
-  img1_6MouseDown = false;
+  img1_6MouseDown = false; */
 
   kursorX = 0;
   kursorY = 0;
@@ -347,8 +344,17 @@ export class AppComponent implements OnInit, AfterViewInit{
       let urlTemp = '';
 
       zdj.src = this.imgSrcDoPrzesuniecia.src;
+      
       //potrzebne zeby jak do pustego przesuwam to sie w pustym pojawilo zdjecie (*ngIf="url_x != ''")
-      if(zdj.id=='img1_1'){
+      this.parametryZdjec.forEach((val)=>{
+        if(val.id==zdj.id){
+          urlTemp = val.url;
+          val.url = zdj.src;
+        }
+      });
+
+
+/*       if(zdj.id=='img1_1'){
         urlTemp = this.url1_1;
         this.url1_1 = this.imgSrcDoPrzesuniecia.src;
       }
@@ -371,20 +377,20 @@ export class AppComponent implements OnInit, AfterViewInit{
       if(zdj.id=='img1_6'){
         urlTemp = this.url1_6;
         this.url1_6 = this.imgSrcDoPrzesuniecia.src;
-      }
+      } */
 
       this.wpasujZdjeciePoZmianieSzablonu(zdj);
 
-      let tablicaImgow = [
+/*       let tablicaImgow = [
         {'srcUrl':this.url1_1,'img':this.img1_1},
         {'srcUrl':this.url1_2,'img':this.img1_2},
         {'srcUrl':this.url1_3,'img':this.img1_3},
         {'srcUrl':this.url1_4,'img':this.img1_4},
         {'srcUrl':this.url1_5,'img':this.img1_5},
         {'srcUrl':this.url1_6,'img':this.img1_6}
-        ];
+        ]; */
   
-      tablicaImgow.forEach((val)=>{
+      /*tablicaImgow.forEach((val)=>{
         if(this.imgSrcDoPrzesuniecia != undefined && val.img.nativeElement.id == this.imgSrcDoPrzesuniecia.id){
           val.img.nativeElement.src = zdjTempSrc;//to dziala jak referencja
           val.srcUrl = zdjTempSrc;//a to nie dziala jak referencja, czyli mozna wywalic i w ogole mozna klucze wywalic i tylko tabelke imgow zrobic
@@ -410,7 +416,34 @@ export class AppComponent implements OnInit, AfterViewInit{
           //console.log(urlTemp);
 
           this.wpasujZdjeciePoZmianieSzablonu(val.img.nativeElement);
-        }
+        }*/
+        this.parametryZdjec.forEach((val)=>{
+          if(val.img && this.imgSrcDoPrzesuniecia != undefined && val.id == this.imgSrcDoPrzesuniecia.id){
+            val.img.nativeElement.src = zdjTempSrc;//to dziala jak referencja
+            val.url = urlTemp;//a to nie dziala jak referencja, czyli mozna wywalic i w ogole mozna klucze wywalic i tylko tabelke imgow zrobic
+            //czyli znowu musze na pałę:
+            /*if(this.imgSrcDoPrzesuniecia.id=='img1_1'){
+              this.url1_1 = urlTemp;
+            }
+            if(this.imgSrcDoPrzesuniecia.id=='img1_2'){
+              this.url1_2 = urlTemp;
+            }
+            if(this.imgSrcDoPrzesuniecia.id=='img1_3'){
+              this.url1_3 = urlTemp;
+            }
+            if(this.imgSrcDoPrzesuniecia.id=='img1_4'){
+              this.url1_4 = urlTemp;
+            }
+            if(this.imgSrcDoPrzesuniecia.id=='img1_5'){
+              this.url1_5 = urlTemp;
+            }
+            if(this.imgSrcDoPrzesuniecia.id=='img1_6'){
+              this.url1_6 = urlTemp;
+            }*/
+            //console.log(urlTemp);
+  
+            this.wpasujZdjeciePoZmianieSzablonu(val.img.nativeElement);
+          }
         /*if(this.imgSrcDoPrzesuniecia != undefined && zdj.id == val.img.nativeElement.id){
           val.srcUrl = this.imgSrcDoPrzesuniecia.src;//to niestety nie działa jakby było referencją, więc wyżej spr id i this.url1_x = src
           this.cdr.detectChanges();

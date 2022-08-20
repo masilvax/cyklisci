@@ -58,12 +58,12 @@
        <div class="wyborKolazy">
               <div *ngFor="let sz of szablony" (click)="wybierzKolaz(sz)">
                      <div [ngClass]="sz">
-                            <div></div>
-                            <div [ngStyle]="{'border':(sz === 'maleNaDuzym') ? '2px solid #9FA8DA' : 'none' }"></div>
-                            <div></div>
-                            <div></div>
+                            <div *ngFor="let pz of parametryZdjec; index as i"></div>
+                            <!--<div [ngStyle]="{'border':(sz === 'maleNaDuzym') ? '2px solid #9FA8DA' : 'none' }"></div>
                             <div></div>
                             <div></div>
+                            <div></div>
+                            <div></div>-->
                      </div>
               </div>
        </div>
@@ -87,7 +87,10 @@
 
                      <div (drop)="onFileDroped($event,img)" (dragover)="stopujZapobiegaj($event)" (dragleave)="usunPrzezroczystosc($event)"
                      (mouseup)="mouseUp(img)"
-                     *ngFor="let pz of parametryZdjec; let i = index">
+                     *ngFor="let pz of parametryZdjec; let i = index"
+                     [ngStyle]="{'border':(wybranySzablon === 'maleNaDuzym' && i==1) || (wybranySzablon === 'maleNaCzterech' && i==4) ? gruboscPaspartu+'px solid '+color : 'none' }"
+                     [ngStyle]="{'width':(wybranySzablon === 'maleNaCzterech' && i!=4) ? 'calc(50% - '+(gruboscPaspartu/2)+'px)' : 'auto',
+                            '':''}">
 
                             <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event,img)" #fileUpload>
                             
@@ -95,7 +98,7 @@
                                    <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu" xPosition="before">
-                                   <button mat-menu-item (click)="fileUpload.click()">wybierz innne</button>
+                                   <button mat-menu-item (click)="fileUpload.click()">wybierz inne</button>
                                    <button mat-menu-item (click)="wysrodkujZdjecie(img)">wyśrodkuj</button>
                                    <button mat-menu-item (click)="skalujZdjecie(img)">skaluj</button>
                                    <button mat-menu-item (click)="dopasujZdjecie(img,'pion')">dopasuj w pionie</button>
