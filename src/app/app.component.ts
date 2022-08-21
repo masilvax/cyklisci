@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit{
      * Najpierw wpełniam tablice parametryZdjec bez referencji z DOMa, bo ich jeszcze przecież nie ma
      * Potem w afterViewInit jak już są img, fileUploady i canvasy, to przelatuje ją jeszcze raz i uzupełniam rzeczonymi elementami z DOMa
      */
-    for(let i=0;i<9;i++){
+    for(let i=0;i<17;i++){
       this.parametryZdjec.push({
         url:'',
         mouseDown:false,
@@ -80,14 +80,13 @@ export class AppComponent implements OnInit, AfterViewInit{
   imgSrcDoPrzesuniecia!: HTMLImageElement|undefined;
 
   wybranySzablon = 'kwadraty4';
-  szablony = ['kwadraty4',
+  szablony = ['kwadrat1','kwadraty4','kwadraty9',
               'kwadraty4inne','kwadraty4inneL','kwadraty4inneP','kwadraty4innePL',
               'kwadraty3boczne1duzy','kwadraty3boczne1duzyL','kwadraty3boczne1duzyP','kwadraty3boczne1duzyPL',
               'kwadraty2boczne1duzy','kwadraty2boczne1duzyL','kwadraty2boczne1duzyP','kwadraty2boczne1duzyPL',
-              'podloga','podlogaP','innaPodloga',
-              'maleNaDuzym','spirala',
-              'kwadrat1',
-              'kwadraty9','maleNaCzterech'];
+              'podloga','podlogaP','innaPodloga','spirala',
+              'kwadraty12malych1duzy','kwadraty16malych1duzy',
+              'maleNaCzterech','maleNaDuzym','male2NaDuzym'];
 
   gruboscPaspartu:number = 10;
   rozmiarKolazu:number = 900;
@@ -517,7 +516,7 @@ export class AppComponent implements OnInit, AfterViewInit{
       };
     }
 
-    if(wybranySzablon=='maleNaDuzym' && nrDiva==1){
+    if(wybranySzablon=='maleNaDuzym' && nrDiva==1 || ( wybranySzablon=='male2NaDuzym' && (nrDiva==1 || nrDiva==2) ) ){
       styl = {
         'border':gruboscPaspartu+'px solid '+kolor
       };

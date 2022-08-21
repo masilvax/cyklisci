@@ -136,6 +136,60 @@
 .innaPodloga > div:nth-child(5) { grid-area: 2 / 2 / 4 / 3; }
 .innaPodloga > div:nth-child(6) { grid-area: 3 / 3 / 4 / 4; }
 
+.kwadraty9 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.kwadrat1{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+.kwadraty12malych1duzy {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}    
+.kwadraty12malych1duzy > div:nth-child(1) { grid-area: 2 / 2 / 4 / 4; }
+.kwadraty12malych1duzy > div:nth-child(2) { grid-area: 1 / 1 / 2 / 2; }
+.kwadraty12malych1duzy > div:nth-child(3) { grid-area: 1 / 2 / 2 / 3; }
+.kwadraty12malych1duzy > div:nth-child(4) { grid-area: 1 / 3 / 2 / 4; }
+.kwadraty12malych1duzy > div:nth-child(5) { grid-area: 1 / 4 / 2 / 5; }
+.kwadraty12malych1duzy > div:nth-child(6) { grid-area: 2 / 4 / 3 / 5; }
+.kwadraty12malych1duzy > div:nth-child(7) { grid-area: 3 / 4 / 4 / 5; }
+.kwadraty12malych1duzy > div:nth-child(8) { grid-area: 4 / 4 / 5 / 5; }
+.kwadraty12malych1duzy > div:nth-child(9) { grid-area: 4 / 3 / 5 / 4; }
+.kwadraty12malych1duzy > div:nth-child(10) { grid-area: 4 / 2 / 5 / 3; }
+.kwadraty12malych1duzy > div:nth-child(11) { grid-area: 4 / 1 / 5 / 2; }
+.kwadraty12malych1duzy > div:nth-child(12) { grid-area: 3 / 1 / 4 / 2; }
+.kwadraty12malych1duzy > div:nth-child(13) { grid-area: 2 / 1 / 3 / 2; }
+
+.kwadraty16malych1duzy {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}    
+.kwadraty16malych1duzy > div:nth-child(1) { grid-area: 2 / 2 / 5 / 5; }
+.kwadraty16malych1duzy > div:nth-child(2) { grid-area: 1 / 1 / 2 / 2; }
+.kwadraty16malych1duzy > div:nth-child(3) { grid-area: 1 / 2 / 2 / 3; }
+.kwadraty16malych1duzy > div:nth-child(4) { grid-area: 1 / 3 / 2 / 4; }
+.kwadraty16malych1duzy > div:nth-child(5) { grid-area: 1 / 4 / 2 / 5; }
+.kwadraty16malych1duzy > div:nth-child(6) { grid-area: 1 / 5 / 2 / 6; }
+.kwadraty16malych1duzy > div:nth-child(7) { grid-area: 2 / 5 / 3 / 6; }
+.kwadraty16malych1duzy > div:nth-child(8) { grid-area: 3 / 5 / 4 / 6; }
+.kwadraty16malych1duzy > div:nth-child(9) { grid-area: 4 / 5 / 5 / 6; }
+.kwadraty16malych1duzy > div:nth-child(10) { grid-area: 5 / 5 / 6 / 6; }
+.kwadraty16malych1duzy > div:nth-child(11) { grid-area: 5 / 4 / 6 / 5; }
+.kwadraty16malych1duzy > div:nth-child(12) { grid-area: 5 / 3 / 6 / 4; }
+.kwadraty16malych1duzy > div:nth-child(13) { grid-area: 5 / 2 / 6 / 3; }
+.kwadraty16malych1duzy > div:nth-child(14) { grid-area: 5 / 1 / 6 / 2; }
+.kwadraty16malych1duzy > div:nth-child(15) { grid-area: 4 / 1 / 5 / 2; }
+.kwadraty16malych1duzy > div:nth-child(16) { grid-area: 3 / 1 / 4 / 2; }
+.kwadraty16malych1duzy > div:nth-child(17) { grid-area: 2 / 1 / 3 / 2; }
+
 .maleNaDuzym{
     display: block;
 }
@@ -152,15 +206,32 @@
     margin-left: 50%;
     border: 2px solid #9FA8DA;
 }
-.kwadrat1{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+
+.male2NaDuzym{
+    display: block;
 }
-.kwadraty9 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+.male2NaDuzym > div:nth-child(1){
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.male2NaDuzym > div:nth-child(2){
+    width: 25%;
+    height: 25%;
+    margin-top: -83.5%;
+    margin-left: 58%;
+    border: 2px solid #9FA8DA;
+    box-sizing: border-box;
+}
+.male2NaDuzym > div:nth-child(3){
+    width: 25%;
+    height: 25%;
+    margin-top: 17%;
+    margin-left: 58%;
+    border: 2px solid #9FA8DA;
+    box-sizing: border-box;
 }
 
 .maleNaCzterech{
@@ -181,15 +252,15 @@
     box-sizing: border-box;
 }
 
+.kwadrat1 > div:nth-child(n+2), .kwadraty4 > div:nth-child(n+5), .kwadraty9 > div:nth-child(n+10),
 .kwadraty3boczne1duzy > div:nth-child(n+5), .kwadraty3boczne1duzyL > div:nth-child(n+5), .kwadraty3boczne1duzyP > div:nth-child(n+5), .kwadraty3boczne1duzyPL > div:nth-child(n+5),
 .kwadraty2boczne1duzy > div:nth-child(n+4), .kwadraty2boczne1duzyL > div:nth-child(n+4), .kwadraty2boczne1duzyP > div:nth-child(n+4), .kwadraty2boczne1duzyPL > div:nth-child(n+4),
 .podloga > div:nth-child(n+5), .podlogaP > div:nth-child(n+5),
 .innaPodloga > div:nth-child(n+7),
 .kwadraty4inne > div:nth-child(n+5), .kwadraty4inneL > div:nth-child(n+5), .kwadraty4inneP > div:nth-child(n+5), .kwadraty4innePL > div:nth-child(n+5),
-.kwadraty4 > div:nth-child(n+5), .maleNaDuzym > div:nth-child(n+3), .spirala > div:nth-child(n+6),
-.kwadrat1 > div:nth-child(n+2),
-.maleNaCzterech > div:nth-child(n+6),
-.kwadraty9 > div:nth-child(n+10){
+.spirala > div:nth-child(n+6),
+.kwadraty12malych1duzy > div:nth-child(n+14), .kwadraty16malych1duzy > div:nth-child(n+18),
+.maleNaCzterech > div:nth-child(n+6), .maleNaDuzym > div:nth-child(n+3), .male2NaDuzym > div:nth-child(n+4){
     display: none;
 }
 /* KONIEC SZABLONY */
