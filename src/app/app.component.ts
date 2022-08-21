@@ -482,7 +482,7 @@ export class AppComponent implements OnInit, AfterViewInit{
           }
         });
       }
-      console.dir(result);
+      //console.dir(result);
     });
   }
 
@@ -577,7 +577,6 @@ export class FiltrDialog implements AfterViewInit{
       this.kopiaZastosowanychFiltrow.forEach((value)=>{      
         if(value.nazwa == this.data.nazwaFiltra){
           this.nowaWartosc = value.wartAktualna;
-          console.log('no jest, a nie ma być: '+value.wartAktualna);
         }
       });
   }//koniec konstruktora
