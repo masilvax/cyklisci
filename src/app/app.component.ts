@@ -482,7 +482,7 @@ export class AppComponent implements OnInit, AfterViewInit{
           }
         });
       }
-      //console.dir(result);
+      console.dir(result);
     });
   }
 
@@ -571,11 +571,13 @@ export class FiltrDialog implements AfterViewInit{
           this.nowaWartosc = value.wartDomysl;
         }
       });
-
+      
+      this.kopiaZastosowanychFiltrow = JSON.parse(JSON.stringify(this.data.zastosowaneFiltryZdjecia));
       //sprawdzenie czy jest juz zastosowany i pobranie bieżącej wartosci
-      this.data.zastosowaneFiltryZdjecia.forEach((value)=>{      
+      this.kopiaZastosowanychFiltrow.forEach((value)=>{      
         if(value.nazwa == this.data.nazwaFiltra){
           this.nowaWartosc = value.wartAktualna;
+          console.log('no jest, a nie ma być: '+value.wartAktualna);
         }
       });
   }//koniec konstruktora
@@ -587,6 +589,7 @@ export class FiltrDialog implements AfterViewInit{
   jednostka = '';
   min = ''//do hmtla do sldera zakres
   max = ''//do hmtla do sldera zakres
+  kopiaZastosowanychFiltrow:zastosowanyFiltr[] = [];//object zachowuje sie jak referencja,wiec potrzebujemy kopii, zeby anulowanie nie wplywalo na zastosowaneFiltry
 
   cssWszystkieZastosowaneFiltry = '';
 
@@ -602,8 +605,8 @@ export class FiltrDialog implements AfterViewInit{
   naZmiane(): void {//najpierw aktualizuje tabelke zastosowaneFiltry, a potem tylko podglądowi robie filtr w cssie
 
     let nowyFiltr = true;//moga byc juz jakies zastosowaneFiltry, ale nie musi w nich byc tego co go zmieniamy
-    if(this.data.zastosowaneFiltryZdjecia.length>0){
-      this.data.zastosowaneFiltryZdjecia.forEach((zastFiltr)=>{
+    if(this.kopiaZastosowanychFiltrow.length>0){
+      this.kopiaZastosowanychFiltrow.forEach((zastFiltr)=>{
         if(zastFiltr.nazwa == this.data.nazwaFiltra){//filtr ktory zmieniamy jest w zastosowanych - aktualizacja tabeli zastosowaneFiltry
           zastFiltr.wartAktualna = this.nowaWartosc;
           nowyFiltr = false;
@@ -612,13 +615,13 @@ export class FiltrDialog implements AfterViewInit{
     }
 
     if(nowyFiltr){
-      this.data.zastosowaneFiltryZdjecia.push({nazwa:this.data.nazwaFiltra,wartAktualna:this.nowaWartosc});
+      this.kopiaZastosowanychFiltrow.push({nazwa:this.data.nazwaFiltra,wartAktualna:this.nowaWartosc});
     }
 
     this.cssWszystkieZastosowaneFiltry = '';//zerujemy to!!!
 
-    if(this.data.zastosowaneFiltryZdjecia.length>0){
-      this.data.zastosowaneFiltryZdjecia.forEach((zastFiltr)=>{
+    if(this.kopiaZastosowanychFiltrow.length>0){
+      this.kopiaZastosowanychFiltrow.forEach((zastFiltr)=>{
         this.data.filtry.forEach((typFiltra)=>{
           
           if(typFiltra.nazwa == zastFiltr.nazwa){
@@ -636,7 +639,7 @@ export class FiltrDialog implements AfterViewInit{
     this.data.zdj.style.setProperty('filter',this.cssWszystkieZastosowaneFiltry);
 
     //zwracam zastosowaneFiltry po zmianach
-    this.dialogRef.close(this.data.zastosowaneFiltryZdjecia);
+    this.dialogRef.close(this.kopiaZastosowanychFiltrow);
   }
 
 }
