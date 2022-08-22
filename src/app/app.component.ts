@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, AfterViewInit{
               'kwadraty2boczne1duzy','kwadraty2boczne1duzyL','kwadraty2boczne1duzyP','kwadraty2boczne1duzyPL',
               'podloga','podlogaP','innaPodloga','spirala',
               'kwadraty12malych1duzy','kwadraty16malych1duzy',
-              'maleNaCzterech','maleNaDuzym','male2NaDuzym'];
+              'maleNaCzterech','maleNaCzterech2','maleNaDuzym','maleNaDuzymL','male2NaDuzym','male2NaDuzymL'];
 
   gruboscPaspartu:number = 10;
   rozmiarKolazu:number = 900;
@@ -504,19 +504,27 @@ export class AppComponent implements OnInit, AfterViewInit{
 
     if(wybranySzablon=='maleNaCzterech' && nrDiva==4){
       styl = {
+        'margin-top':'calc(-66.5% - '+(gruboscPaspartu)+'px)',
+        'border':gruboscPaspartu+'px solid '+kolor
+      };
+    }
+
+    if(wybranySzablon=='maleNaCzterech2' && nrDiva==4){
+      styl = {
         'margin-top':'calc(-75% - '+(gruboscPaspartu)+'px)',
         'border':gruboscPaspartu+'px solid '+kolor
       };
     }
 
-    if(wybranySzablon=='maleNaCzterech' && nrDiva!=4){
+    if((wybranySzablon=='maleNaCzterech' || wybranySzablon=='maleNaCzterech2') && nrDiva!=4){
       styl = {
         'width':'calc(50% - '+(gruboscPaspartu/2)+'px)',
         'height':'calc(50% - '+(gruboscPaspartu/2)+'px)'
       };
     }
 
-    if(wybranySzablon=='maleNaDuzym' && nrDiva==1 || ( wybranySzablon=='male2NaDuzym' && (nrDiva==1 || nrDiva==2) ) ){
+    if( ((wybranySzablon=='maleNaDuzym' || wybranySzablon=='maleNaDuzymL') && nrDiva==1) 
+      || ( (wybranySzablon=='male2NaDuzym' || wybranySzablon=='male2NaDuzymL') && (nrDiva==1 || nrDiva==2) ) ){
       styl = {
         'border':gruboscPaspartu+'px solid '+kolor
       };
