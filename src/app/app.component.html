@@ -11,7 +11,7 @@
 </button>
 <mat-spinner *ngIf="zrzutKolazuZrobiony && loaderDownloader" id="loaderDownloader" diameter="24" color="accent"></mat-spinner>
 
-<div id="glownyWrapper" (mouseup)="imgSrcDoPrzesuniecia = undefined">
+<div id="glownyWrapper" (mouseup)="imgDoPrzesuniecia = undefined">
 <mat-toolbar id="toolsy" class="mat-elevation-z10">
        <h1><!--Super<br/>Zaawansowany<br/>-->Generator Kolaży<br/>"Cyklistator"</h1>
        
@@ -73,7 +73,7 @@
 
 
                      <div (drop)="onFileDroped($event,img)" (dragover)="stopujZapobiegaj($event)" (dragleave)="usunPrzezroczystosc($event)"
-                     (mouseup)="mouseUp(img)"
+                     (mouseup)="mouseUp(pz)"
                      *ngFor="let pz of parametryZdjec; let i = index"                     
                      [ngStyle]="utowrzNgStyle(wybranySzablon,i,gruboscPaspartu,color)">
                      <!--
@@ -110,7 +110,7 @@
                             </div>
 
                             <img id="{{pz.id}}" #img [src]="pz.url" draggable="false"
-                            (mousedown)="pz.mouseDown=true;kursoryPoczatkowe(img.offsetTop,img.offsetLeft);mouseDown(img)"
+                            (mousedown)="pz.mouseDown=true;kursoryPoczatkowe(img.offsetTop,img.offsetLeft);mouseDown(pz)"
                             (mouseup)="pz.mouseDown=false" (mouseout)="pz.mouseDown=false"/>
 
                             <canvas #canvas></canvas>

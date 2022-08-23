@@ -77,7 +77,7 @@ export class AppComponent implements OnInit, AfterViewInit{
   @ViewChild('paspartu', { static: true }) paspartu!: ElementRef<HTMLElement>;
   @ViewChild('zrzutKolazu', { static: true }) zrzutKolazu!: ElementRef<HTMLElement>;//to jest niewidoczne, ale jest i ma wysokosc 100vh
 
-  imgSrcDoPrzesuniecia!: HTMLImageElement|undefined;
+  imgDoPrzesuniecia:parametryZdjecia|undefined;//HTMLImageElement|undefined;
 
   wybranySzablon = 'kwadraty4';
   szablony = ['kwadrat1','kwadraty4','kwadraty9',
@@ -240,8 +240,7 @@ export class AppComponent implements OnInit, AfterViewInit{
     this.cdr.detectChanges();
 
     this.parametryZdjec.forEach((v)=>{
-      if (v.img)
-      this.wpasujZdjeciePoZmianieSzablonu(v.img.nativeElement);
+      if (v.img) this.wpasujZdjeciePoZmianieSzablonu(v.img.nativeElement);
     });
   }
 
@@ -254,47 +253,63 @@ export class AppComponent implements OnInit, AfterViewInit{
   * a na mouseup już musi wiedziec z ktorym divem się zamienia na zdjęcia, a jeszcze nie wie bo się mouseenter nie odpalił na mouseenter, a dopiero po mouseupie
   * więc nie działa
   */
-  mouseDown(zdj:HTMLImageElement){//do przesuwania zdjec miedzy divami (wymiany zdjec)
-    this.imgSrcDoPrzesuniecia = zdj;
+  mouseDown(zdj:parametryZdjecia){//do przesuwania zdjec miedzy divami (wymiany zdjec)
+    this.imgDoPrzesuniecia = zdj;
   }
+  mouseUp(zdj:parametryZdjecia){//do przesuwania zdjec miedzy divami (wymiany zdjec)
 
-  mouseUp(zdj:HTMLImageElement){//do przesuwania zdjec miedzy divami (wymiany zdjec)
+    /*
+    przypisanie obiektow bezposrednio (val=zdjDoPrzesuniecia i val=temp) nie działa jak bym chciał,[edit] I DOBRZE - idka nie mogę se ot tak zmieniać!!!
+    więc najpierw znajduje zdjecie przekazane w parametrze (na ktorym był MOUSEUP)
+    i do niego wrzucam co trzeba z bufora. Potem znajduje to docelowe (na którym był MOUSEDOWN) 
+    
+    Jakie propertisy trzeba zamienić:
 
-    if (this.imgSrcDoPrzesuniecia != undefined && this.imgSrcDoPrzesuniecia.id != zdj.id) {
-      //console.log('przesuwam');
-      let zdjTempSrc = zdj.src;
-      let urlTemp = '';
+    1.url - po url *ngIfa robie - musi byc. Ciekawostka: puste zdjęcie ma url='' i src='localhost:4200'
+    2.src - musi być żeby miał rozmiar obrazka do wpasowania i wyśrodkowania - DAJEMY URL, bo nativeElement.src z parametru lub z this.imgDoPrzesuniecia
+    jest referencja i może już być zmienione.
+    3.zastosowaneFiltry
+    4.nativeElement.style filter
 
-      zdj.src = this.imgSrcDoPrzesuniecia.src;
+    note: co chwile if, bo jak ma probably undefined, to nie widzi co ma w ifie nadrzędnym
+    note2: muszą być dwie pętle
+    */
 
-      //potrzebne zeby jak do pustego przesuwam to sie w pustym pojawilo zdjecie (*ngIf="url_x != ''")
+    if (this.imgDoPrzesuniecia != undefined && this.imgDoPrzesuniecia.id != zdj.id) {
+      
+      let temp:parametryZdjecia = JSON.parse(JSON.stringify(zdj));//trzeba bo obiekt, czyli jak referencja
+      let filtryTempaCss = zdj.img?.nativeElement.style.getPropertyValue('filter');
+
+      let doPrzesuniecia:parametryZdjecia = JSON.parse(JSON.stringify(this.imgDoPrzesuniecia));//trzeba bo obiekt, czyli jak referencja
+      let filtryDoPrzesunieciaCss = this.imgDoPrzesuniecia.img?.nativeElement.style.getPropertyValue('filter');
+
       this.parametryZdjec.forEach((val) => {
-        if (val.id == zdj.id) {
-          urlTemp = val.url;
-          val.url = zdj.src;
-        }
-      });
-
-      this.wpasujZdjeciePoZmianieSzablonu(zdj);
-
-      this.parametryZdjec.forEach((val) => {
-        if (val.img && this.imgSrcDoPrzesuniecia != undefined && val.id == this.imgSrcDoPrzesuniecia.id) {
-          val.img.nativeElement.src = zdjTempSrc;//to dziala jak referencja
-          val.url = urlTemp;
-          //console.log(urlTemp);
-
+        if (val.id == zdj.id && val.img && doPrzesuniecia) {//to na ktorym jest MOUSEUP
+          val.url = doPrzesuniecia.url;
+          val.img.nativeElement.src = doPrzesuniecia.url;
+          val.zastosowaneFiltry = doPrzesuniecia.zastosowaneFiltry;
+          if (filtryDoPrzesunieciaCss){
+            //val.img.nativeElement = this.imgDoPrzesuniecia.img.nativeElement;//OJ TO KASZANI NIEMIŁOSIERNIE!!! uważać na przypisywanie nativeElementow! 
+            val.img.nativeElement.style.setProperty('filter',filtryDoPrzesunieciaCss);
+          }
           this.wpasujZdjeciePoZmianieSzablonu(val.img.nativeElement);
+          //console.log(val.id);
         }
-        /*if(this.imgSrcDoPrzesuniecia != undefined && zdj.id == val.img.nativeElement.id){
-          val.srcUrl = this.imgSrcDoPrzesuniecia.src;//to niestety nie działa jakby było referencją, więc wyżej spr id i this.url1_x = src
-          this.cdr.detectChanges();
-        }*/
       });
 
-    }/*else{
-      console.log('nie przesuwam');
-    }*/
-    this.imgSrcDoPrzesuniecia = undefined;
+      this.parametryZdjec.forEach((val) => {
+        if (val.img && doPrzesuniecia && val.id == doPrzesuniecia.id) {//to na ktorym bylo ostatnie MOUSEDOWN
+          val.url = temp.url;
+          val.img.nativeElement.src = temp.url;//temp.img.nativeElement.src;
+          val.zastosowaneFiltry = temp.zastosowaneFiltry;
+          (filtryTempaCss) ? val.img.nativeElement.style.setProperty('filter',filtryTempaCss) : val.img.nativeElement.style.setProperty('filter','none');
+          this.wpasujZdjeciePoZmianieSzablonu(val.img.nativeElement);
+          //console.log(val.id);
+        }
+      });
+
+    }
+    this.imgDoPrzesuniecia = undefined;
   }
 
   onFileDroped(event:any,el:HTMLImageElement){
@@ -372,7 +387,10 @@ export class AppComponent implements OnInit, AfterViewInit{
   wyczyscZdjecia(){
     this.parametryZdjec.forEach((v)=>{
       v.url='';
-    });
+      v.zastosowaneFiltry = [];
+      v.zastosowaneFiltry.length = 0;
+      v.img?.nativeElement.style.setProperty('filter','none');
+    }); 
   }
 
   @HostListener('document:mousemove', ['$event']) documentClickEvent($event: MouseEvent) {
@@ -486,7 +504,6 @@ export class AppComponent implements OnInit, AfterViewInit{
   }
 
   wyczyscFiltryZdjecia(zdj:HTMLImageElement){
-    //jak parametrem przkeazuje zastosowaneFiltry to nie dziala, więc:
 
     this.parametryZdjec.forEach((v)=>{
       if (v.img && v.id == zdj.id){
