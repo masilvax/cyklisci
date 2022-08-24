@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, ViewChild, Inject, ChangeDetectorR
 import html2canvas from 'html2canvas';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
-export interface filtr{
+interface filtr{
   nazwa:string,
   nazwaWysw:string,
   wartDomysl:number,
@@ -10,12 +10,11 @@ export interface filtr{
   max:string,
   jednostka:string
 }
-export interface zastosowanyFiltr{
+interface zastosowanyFiltr{
   nazwa:string,
   wartAktualna:number
 }
-
-export interface parametryZdjecia{
+interface parametryZdjecia{
   id:string,
   url:string,
   mouseDown:boolean,
