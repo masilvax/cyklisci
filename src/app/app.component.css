@@ -2,7 +2,7 @@
     display: none;
 }
 .example-form-field{
-    width:80px;
+    width:100px;
 }
 #paspartu{
     background-color: white;
@@ -287,6 +287,17 @@
     box-sizing: border-box;
 }
 
+.dwaPionowe {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    display: grid;
+}
+.dwaPoziome {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    display: grid;
+}
+
 .kwadrat1 > div:nth-child(n+2), .kwadraty4 > div:nth-child(n+5), .kwadraty9 > div:nth-child(n+10),
 .kwadraty3boczne1duzy > div:nth-child(n+5), .kwadraty3boczne1duzyL > div:nth-child(n+5), .kwadraty3boczne1duzyP > div:nth-child(n+5), .kwadraty3boczne1duzyPL > div:nth-child(n+5),
 .kwadraty2boczne1duzy > div:nth-child(n+4), .kwadraty2boczne1duzyL > div:nth-child(n+4), .kwadraty2boczne1duzyP > div:nth-child(n+4), .kwadraty2boczne1duzyPL > div:nth-child(n+4),
@@ -297,7 +308,8 @@
 .kwadraty12malych1duzy > div:nth-child(n+14), .kwadraty16malych1duzy > div:nth-child(n+18),
 .maleNaCzterech > div:nth-child(n+6), .maleNaCzterech2 > div:nth-child(n+6),
 .maleNaDuzym > div:nth-child(n+3), .maleNaDuzymL > div:nth-child(n+3),
-.male2NaDuzym > div:nth-child(n+4), .male2NaDuzymL > div:nth-child(n+4){
+.male2NaDuzym > div:nth-child(n+4), .male2NaDuzymL > div:nth-child(n+4),
+.dwaPoziome > div:nth-child(n+3), .dwaPionowe > div:nth-child(n+3) {
     display: none;
 }
 /* KONIEC SZABLONY */
@@ -345,7 +357,7 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    width:200px;
+    width:250px;
     min-height: 100vh;
     height: 100%;
 }
@@ -355,7 +367,7 @@
     /*display: flex;
     align-items: center;
     justify-content: center;*/
-    min-width: calc(100vw - 200px);
+    min-width: calc(100vw - 250px);
     min-height: 100vh;
 }
 .dodajObraz{
