@@ -367,7 +367,7 @@
     /*display: flex;
     align-items: center;
     justify-content: center;*/
-    min-width: calc(100vw - 200px);
+    min-width: calc(100vw - 250px);
     min-height: 100vh;
 }
 .dodajObraz{
