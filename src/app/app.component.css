@@ -298,6 +298,27 @@
     display: grid;
 }
 
+.dwaPionowe-2-1 {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(1, 1fr);
+    display: grid;
+}
+.dwaPionowe-1-2 {
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(1, 1fr);
+    display: grid;
+}
+.dwaPoziome-2-1 {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 2fr 1fr;
+    display: grid;
+}
+.dwaPoziome-1-2 {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr 2fr;
+    display: grid;
+}
+
 .kwadrat1 > div:nth-child(n+2), .kwadraty4 > div:nth-child(n+5), .kwadraty9 > div:nth-child(n+10),
 .kwadraty3boczne1duzy > div:nth-child(n+5), .kwadraty3boczne1duzyL > div:nth-child(n+5), .kwadraty3boczne1duzyP > div:nth-child(n+5), .kwadraty3boczne1duzyPL > div:nth-child(n+5),
 .kwadraty2boczne1duzy > div:nth-child(n+4), .kwadraty2boczne1duzyL > div:nth-child(n+4), .kwadraty2boczne1duzyP > div:nth-child(n+4), .kwadraty2boczne1duzyPL > div:nth-child(n+4),
@@ -309,7 +330,8 @@
 .maleNaCzterech > div:nth-child(n+6), .maleNaCzterech2 > div:nth-child(n+6),
 .maleNaDuzym > div:nth-child(n+3), .maleNaDuzymL > div:nth-child(n+3),
 .male2NaDuzym > div:nth-child(n+4), .male2NaDuzymL > div:nth-child(n+4),
-.dwaPoziome > div:nth-child(n+3), .dwaPionowe > div:nth-child(n+3) {
+.dwaPoziome > div:nth-child(n+3), .dwaPionowe > div:nth-child(n+3),
+.dwaPoziome-2-1 > div:nth-child(n+3), .dwaPionowe-2-1 > div:nth-child(n+3), .dwaPoziome-1-2 > div:nth-child(n+3), .dwaPionowe-1-2 > div:nth-child(n+3) {
     display: none;
 }
 /* KONIEC SZABLONY */

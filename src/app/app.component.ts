@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, AfterViewInit{
               'podloga','podlogaP','innaPodloga','spirala',
               'kwadraty12malych1duzy','kwadraty16malych1duzy',
               'maleNaCzterech','maleNaCzterech2','maleNaDuzym','maleNaDuzymL','male2NaDuzym','male2NaDuzymL',
-              'dwaPionowe', 'dwaPoziome'];
+              'dwaPionowe', 'dwaPoziome','dwaPionowe-1-2', 'dwaPoziome-1-2','dwaPionowe-2-1', 'dwaPoziome-2-1'];
 
   gruboscPaspartu:number = 10;
   rozmiarKolazu:number = 900;
