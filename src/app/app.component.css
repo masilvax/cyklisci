@@ -320,13 +320,13 @@
 }
 
 .trzyPoziome {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(3 1fr);
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     display: grid;
 }
 .trzyPionowe {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(1 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
     display: grid;
 }
 
